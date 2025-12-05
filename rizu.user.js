@@ -15,6 +15,14 @@ console.info('start');
 let reader_image;
 let last_seen_alt;
 
+let global_download;
+
+window.addEventListener('keydown', (e) => {
+    if (e.key == 'd') {
+        global_download();
+    }
+});
+
 const rizu = new MutationObserver(() => {
     console.info('mutation');
     link_image();
@@ -58,6 +66,10 @@ function process_image() {
     const filename = `${manga_name.replaceAll(' ', '_')}_chapter_${manga_chapter}_page_${manga_page}`;
 
     reader_image.onclick = () => {
+        download_image();
+    };
+
+    function download_image() {
         console.info('created click for', src, filename);
 
         const link = document.createElement('a');
@@ -66,5 +78,7 @@ function process_image() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    };
+    }
+
+    global_download = download_image;
 }
