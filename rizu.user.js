@@ -16,10 +16,13 @@ let reader_image;
 let last_seen_alt;
 
 let global_download;
+let global_next_chapter;
 
 window.addEventListener('keydown', (e) => {
     if (e.key == 'd') {
         global_download();
+    } else if (e.key == 'n') {
+        if (global_next_chapter) global_next_chapter.click();
     }
 });
 
@@ -28,6 +31,8 @@ const rizu = new MutationObserver(() => {
     link_image();
 
     process_image();
+
+    find_next();
 });
 
 rizu.observe(document.documentElement, {
@@ -81,4 +86,17 @@ function process_image() {
     }
 
     global_download = download_image;
+}
+
+function find_next() {
+    if (reader_image) return;
+
+    const buttons = document.body.querySelectorAll('.reader-pages-content button');
+    buttons.forEach(button => {
+        const text = button.firstChild;
+
+        if (text.textContent.trim() == 'Next Chapter') {
+            button = global_next_chapter;
+        }
+    });
 }
