@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
+import { setCookie } from 'hono/cookie';
 
 export const authRoutes = new Hono();
 
@@ -12,7 +13,7 @@ authRoutes.post('/register', async (c) => {
     const { username, email, password } = await c.req.json();
 
     if (!username || !email || !password) {
-      return c.json({ error: 'missing required fields: usernaem, email, password' }, 400);
+      return c.json({ error: 'missing required fields: username, email, password' }, 400);
     }
 
     if (password.length < 6) {
@@ -34,7 +35,7 @@ authRoutes.post('/register', async (c) => {
 
     return c.json({ message: 'created user' }, 201);
   } catch (error) {
-    return c.json({ error: 'something went wrong' }, 500);
+    return c.json({ error: error.message }, 500);
   }
 });
 
@@ -67,8 +68,16 @@ authRoutes.post('/login', async (c) => {
       .setExpirationTime('7d')
       .sign(secret);
 
-    return c.json({ token });
+    setCookie(c, 'rizuToken', token, {
+      path: '/',
+      httpOnly: true,
+      secure: false,
+      sameSite: 'Lax',
+      maxAge: 60 * 60 * 24 * 7
+    });
+
+    return c.json({ message: 'logged in!' });
   } catch (error) {
-    return c.json({ error: 'something went wrong' }, 500);
+    return c.json({ error: error.message }, 500);
   }
 })
