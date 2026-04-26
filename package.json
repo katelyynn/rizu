@@ -1,0 +1,11 @@
+{
+  "name": "rizu",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:web": "pnpm --filter @rizu/web dev",
+    "dev:api": "pnpm --filter @rizu/api dev",
+    "dev": "pnpm run dev:api && pnpm run dev:web",
+    "build": "pnpm --filter @rizu/shared build && pnpm --filter @rizu/api build && pnpm --filter @rizu/web build"
+  }
+}
