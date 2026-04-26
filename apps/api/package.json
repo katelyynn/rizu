@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "db:push": "drizzle-kit push",
     "build": "tsc"
   },
   "keywords": [],
@@ -13,10 +14,17 @@
   "packageManager": "pnpm@10.33.2",
   "dependencies": {
     "@hono/node-server": "^2.0.0",
-    "hono": "^4.12.15"
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.15",
+    "jose": "^6.2.2",
+    "postgres": "^3.4.9"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
     "@types/node": "^25.6.0",
+    "drizzle-kit": "^0.31.10",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3"
   }
