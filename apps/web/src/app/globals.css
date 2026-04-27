@@ -81,3 +81,10 @@ main {
 header {
   background: #CC5A63;
 }
+
+strong, b {
+  font-weight: bold;
+}
+em, i {
+  font-style: italic;
+}
