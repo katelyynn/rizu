@@ -17,6 +17,10 @@ export function RizuBottom() {
           Explore
         </BottomNavLink>
         <BottomNavLinkSep />
+        <BottomNavLink href="/users">
+          Users
+        </BottomNavLink>
+        <BottomNavLinkSep />
       </div>
       <Auth />
     </nav>

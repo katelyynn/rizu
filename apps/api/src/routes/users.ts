@@ -21,3 +21,14 @@ userRoutes.get('/:slug', async (c) => {
 
   return c.json(user[0]);
 });
+
+userRoutes.get('/', async (c) => {
+  const allUsers = await db.select({
+    id: users.id,
+    username: users.username,
+    slug: users.slug,
+    born: users.born
+  }).from(users);
+
+  return c.json(allUsers);
+});
