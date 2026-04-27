@@ -10,11 +10,13 @@
   "dependencies": {
     "@rizu/shared": "workspace:*",
     "famfamfam-silk": "^1.0.0",
+    "luxon": "^3.7.2",
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@types/luxon": "^3.7.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

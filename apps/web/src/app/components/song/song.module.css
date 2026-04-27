@@ -5,15 +5,31 @@
 
 .song {
   display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 10px;
+
+  --bg: transparent;
+  --bg-hov: #e6485a21;
+
+  background-color: var(--bg);
+
+  &:hover {
+    background-color: var(--bg-hov);
+  }
+
+  border-top: 1px solid #ddd;
 }
 
 .info {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .name {
   color: #000;
+  font-size: 12px;
 }
 .artist {
   color: #333;
@@ -26,4 +42,30 @@
   &:hover {
     color: var(--link);
   }
+}
+
+.time {
+  font-size: 11px;
+  color: #999;
+}
+
+.avatar {
+  --w: 40px;
+  margin: 0 0 0 -8px;
+
+  width: var(--w);
+  height: var(--w);
+
+  background-color: #eee;
+  cursor: default;
+  user-select: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.placeholder {
+  font-size: 16px;
+  color: #666;
 }

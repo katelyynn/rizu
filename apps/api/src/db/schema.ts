@@ -11,6 +11,20 @@ export const users = pgTable('users', {
   avatar: text('avatar')
 });
 
+export const friendships = pgTable('friendships', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  user: text('user').notNull().references(() => users.id),
+  friend: text('friend').notNull().references(() => users.id),
+  established: timestamp('sent').defaultNow().notNull()
+});
+
+export const friendRequests = pgTable('friend_requests', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  sender: text('sender').notNull().references(() => users.id),
+  receiver: text('receiver').notNull().references(() => users.id),
+  sent: timestamp('sent').defaultNow().notNull()
+});
+
 export const artists = pgTable('artists', {
   id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull().unique(),

@@ -8,11 +8,16 @@
   overflow: hidden;
 
   background-color: #eee;
+
+  cursor: default;
+  user-select: none;
 }
 
 .big {
-  width: 150px;
-  height: 150px;
+  width: var(--big-avatar-size);
+  height: var(--big-avatar-size);
+
+  margin-top: -60px;
 }
 
 .image {

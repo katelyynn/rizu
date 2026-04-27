@@ -3,18 +3,20 @@ export interface UserSnippet {
   username: string,
   slug: string,
   born: string,
-  avatar: string
+  avatar?: string
 }
 
 export interface ArtistSnippet {
   id: string,
-  name: string
+  name: string,
+  avatar?: string
 }
 
 export interface AlbumSnippet {
   id: string,
   name: string,
-  artist: string
+  artist: string,
+  avatar?: string
 }
 
 export interface SongSnippet {
@@ -26,14 +28,16 @@ export interface SongSnippet {
 export interface Artist {
   id: string,
   name: string,
-  mbid?: string
+  mbid?: string,
+  avatar?: string
 }
 
 export interface Album {
   id: string,
   name: string,
   artist: Artist,
-  mbid?: string
+  mbid?: string,
+  avatar?: string
 }
 
 export interface Song {

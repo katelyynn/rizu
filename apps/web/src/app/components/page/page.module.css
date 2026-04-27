@@ -1,0 +1,19 @@
+.topInset {
+  padding: 30px 10px 30px calc(10px + var(--big-avatar-size) + var(--page-column-gap));
+  margin: -10px -10px 0;
+  background-color: #d64f5f0e;
+}
+
+.columns {
+  display: flex;
+  gap: var(--page-column-gap);
+}
+
+.left {
+  width: var(--big-avatar-size);
+  flex-shrink: 0;
+}
+
+.right {
+  flex: 1;
+}
