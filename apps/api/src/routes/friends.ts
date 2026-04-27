@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
 import { getAuthUser } from './auth';
 import { db } from '../db';
-import { friendRequests, friendships, users } from '../db/schema';
-import { and, eq } from 'drizzle-orm';
+import { albums, artists, friendRequests, friendships, listens, songs, users } from '../db/schema';
+import { and, desc, eq, sql } from 'drizzle-orm';
 
 export const friendRoutes = new Hono();
 
@@ -66,4 +66,76 @@ friendRoutes.post('/accept/:id', async (c) => {
   await db.delete(friendRequests).where(eq(friendRequests.id, request.id));
 
   return c.json({ message: 'accepted friend request' }, 200);
+});
+
+friendRoutes.get('/incoming', async (c) => {
+  const userId = await getAuthUser(c);
+  if (!userId) {
+    return c.json({ error: 'unauthorised' }, 401);
+  }
+
+  const requests = await db
+    .select({
+      id: friendRequests.id,
+      sender: users
+    })
+    .from(friendRequests)
+    .innerJoin(users, eq(friendRequests.sender, users.id))
+    .where(eq(friendRequests.receiver, userId));
+
+  return c.json(requests);
+});
+
+friendRoutes.get('/outgoing', async (c) => {
+  const userId = await getAuthUser(c);
+  if (!userId) {
+    return c.json({ error: 'unauthorised' }, 401);
+  }
+
+  const requests = await db
+    .select({
+      id: friendRequests.id,
+      receiver: users
+    })
+    .from(friendRequests)
+    .innerJoin(users, eq(friendRequests.receiver, users.id))
+    .where(eq(friendRequests.sender, userId));
+
+  return c.json(requests);
+});
+
+friendRoutes.get('/list', async (c) => {
+  const userId = await getAuthUser(c);
+  if (!userId) {
+    return c.json({ error: 'unauthorised' }, 401);
+  }
+
+  const latestListens = db
+    .select({
+      user: listens.user,
+      listen: sql<string>`MAX(${listens.id})`.as('latest_listen_id')
+    })
+    .from(listens)
+    .groupBy(listens.user)
+    .as('latest_listens');
+
+  const friends = await db
+    .select({
+      friend: users,
+      listen: listens,
+      song: songs,
+      artist: artists,
+      album: albums
+    })
+    .from(friendships)
+    .innerJoin(users, eq(friendships.friend, users.id))
+    .leftJoin(latestListens, eq(users.id, latestListens.user))
+    .leftJoin(listens, eq(listens.id, latestListens.listen))
+    .leftJoin(songs, eq(listens.song, songs.id))
+    .leftJoin(artists, eq(songs.artist, songs.artist))
+    .leftJoin(albums, eq(listens.album, albums.id))
+    .where(eq(friendships.user, userId))
+    .orderBy(desc(listens.played));
+
+  return c.json(friends);
 });
