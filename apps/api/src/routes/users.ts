@@ -5,14 +5,15 @@ import { eq } from 'drizzle-orm';
 
 export const userRoutes = new Hono();
 
-userRoutes.get('/:username', async (c) => {
-  const username = c.req.param('username');
+userRoutes.get('/:slug', async (c) => {
+  const slug = c.req.param('slug');
 
   const user = await db.select({
     id: users.id,
     username: users.username,
+    slug: users.slug,
     born: users.born
-  }).from(users).where(eq(users.username, username)).limit(1);
+  }).from(users).where(eq(users.slug, slug)).limit(1);
 
   if (user.length == 0) {
     return c.json({ error: 'user not found' }, 404);

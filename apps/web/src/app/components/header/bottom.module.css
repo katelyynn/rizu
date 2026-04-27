@@ -24,7 +24,7 @@
   text-decoration: none;
 
   &:hover {
-    background-color: #aa3442;
+    background: linear-gradient(180deg, #922b37, #aa3442);
   }
 }
 

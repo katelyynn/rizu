@@ -5,6 +5,7 @@ import { db } from '../db';
 import bcrypt from 'bcryptjs';
 import { jwtVerify, SignJWT } from 'jose';
 import { getCookie, setCookie } from 'hono/cookie';
+import slugify from 'slugify';
 
 export const authRoutes = new Hono();
 
@@ -16,6 +17,14 @@ authRoutes.post('/register', async (c) => {
       return c.json({ error: 'missing required fields: username, email, password' }, 400);
     }
 
+    const cleanedUsername = username.trim();
+    const slug = slugify(cleanedUsername, { lower: true, strict: true });
+
+    const existingSlug = await db.select().from(users).where(eq(users.slug, slug)).limit(1);
+    if (existingSlug.length > 0) {
+      return c.json({ error: 'username is already in use' }, 409);
+    }
+
     if (password.length < 6) {
       return c.json({ error: 'password must be at least 6 characters' }, 400);
     }
@@ -25,13 +34,8 @@ authRoutes.post('/register', async (c) => {
       return c.json({ error: 'email is already in use' }, 409);
     }
 
-    const existingUsername = await db.select().from(users).where(eq(users.username, username)).limit(1);
-    if (existingUsername.length > 0) {
-      return c.json({ error: 'username is already in use' }, 409);
-    }
-
     const passwordHash = await bcrypt.hash(password, 10);
-    await db.insert(users).values({ username, email, password: passwordHash });
+    await db.insert(users).values({ username: cleanedUsername, slug, email, password: passwordHash });
 
     return c.json({ message: 'created user' }, 201);
   } catch (error) {
@@ -78,7 +82,7 @@ authRoutes.post('/login', async (c) => {
 
     return c.json({
       message: 'logged in!',
-      user: { id: user[0].id, username: user[0].username }
+      user: { id: user[0].id, username: user[0].username, slug: user[0].slug }
     });
   } catch (error) {
     return c.json({ error: error.message }, 500);

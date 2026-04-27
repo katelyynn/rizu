@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
     "build": "tsc"
   },
   "keywords": [],
@@ -19,7 +22,8 @@
     "drizzle-orm": "^0.45.2",
     "hono": "^4.12.15",
     "jose": "^6.2.2",
-    "postgres": "^3.4.9"
+    "postgres": "^3.4.9",
+    "slugify": "^1.6.9"
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",
