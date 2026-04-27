@@ -25,6 +25,7 @@ export function useFriendStatus(slug: string) {
 
         const data = await res.json();
         setStatus(data.status);
+        setRequestId(data.id);
       } catch {
         setStatus('unavailable');
       }
