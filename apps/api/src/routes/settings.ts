@@ -4,18 +4,13 @@ import { jwtVerify } from 'jose';
 import { db } from '../db';
 import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
+import { getAuthUser } from './auth';
 
 export const settingsRoutes = new Hono();
 
 settingsRoutes.patch('/avatar', async (c) => {
   try {
-    const token = getCookie(c, 'rizuToken');
-    if (!token) return c.json({ error: 'unauthorised' }, 401);
-
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const { payload } = await jwtVerify(token, secret);
-
-    const userId = payload.id as string;
+    const userId = await getAuthUser(c);
     if (!userId) {
       return c.json({ error: 'invalid token' }, 401);
     }

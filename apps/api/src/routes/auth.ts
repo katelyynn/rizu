@@ -91,16 +91,7 @@ authRoutes.post('/login', async (c) => {
 
 authRoutes.get('/me', async (c) => {
   try {
-    const token = getCookie(c, 'rizuToken');
-
-    if (!token) {
-      return c.json({ user: null }, 200);
-    }
-
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const { payload } = await jwtVerify(token, secret);
-
-    const userId = payload.id as string;
+    const userId = await getAuthUser(c);
     if (!userId) return c.json({ user: null }, 200);
 
     const user = await db.select({
@@ -119,3 +110,20 @@ authRoutes.get('/me', async (c) => {
     return c.json({ user: null }, 200);
   }
 });
+
+export async function getAuthUser(c: any): Promise<string | null> {
+  const token = getCookie(c, 'rizuToken');
+  if (!token) return null;
+
+  try {
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret);
+
+    const userId = payload.id as string;
+    if (!userId) return null;
+
+    return userId;
+  } catch {
+    return null;
+  }
+}
