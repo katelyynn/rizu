@@ -14,7 +14,7 @@ export default async function Page() {
     <>
       <h1>{users.length} users</h1>
       {users.map((user: UserSnippet) => (
-        <div>
+        <div key={user.id}>
           <strong><Link href={`/user/${user.slug}`}>{user.username}</Link></strong>
         </div>
       ))}

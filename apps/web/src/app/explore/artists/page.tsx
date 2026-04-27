@@ -14,7 +14,7 @@ export default async function Page() {
     <>
       <h1>{artists.length} artists</h1>
       {artists.map((artist: ArtistSnippet) => (
-        <div>
+        <div key={artist.id}>
           <strong><Link href={`/artist/${artist.id}`}>{artist.name}</Link></strong>
         </div>
       ))}
