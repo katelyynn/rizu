@@ -19,3 +19,10 @@
   font-size: 14px;
   font-weight: bold;
 }
+
+.search {
+  font-size: 11px !important;
+  height: 22px !important;
+  border-radius: 50px !important;
+  padding: 0 10px !important;
+}

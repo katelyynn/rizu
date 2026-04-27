@@ -7,7 +7,8 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
   born: timestamp('born').defaultNow().notNull(),
-  about: text('about')
+  about: text('about'),
+  avatar: text('avatar')
 });
 
 export const artists = pgTable('artists', {

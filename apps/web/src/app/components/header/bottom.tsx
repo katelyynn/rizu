@@ -48,6 +48,10 @@ function Auth() {
           {user.username}
         </BottomNavLink>
         <BottomNavLinkSep />
+        <BottomNavLink href="/settings">
+          Settings
+        </BottomNavLink>
+        <BottomNavLinkSep />
         <BottomNavLink href="/logout">
           Logout
         </BottomNavLink>
