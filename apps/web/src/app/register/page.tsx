@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import RizuInput from '../components/input/input';
 
 export default function Page() {
   const [ email, setEmail ] = useState('');
@@ -38,9 +39,9 @@ export default function Page() {
     <div>
       <form onSubmit={handleRegister}>
         {error && <p>{error}</p>}
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <RizuInput label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <RizuInput label="Username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        <RizuInput label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <button type="submit">submit</button>
       </form>
     </div>
