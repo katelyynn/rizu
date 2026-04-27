@@ -1,3 +1,4 @@
+import { RizuProfileActions } from '@/app/components/actions/actions';
 import { RizuAvatar } from '@/app/components/avatar/avatar';
 import { RizuPageColumns, RizuPageLeft, RizuPageRight, RizuPageTopInset, RizuPageTopInsetTitle } from '@/app/components/page/page';
 import { RizuSong, RizuSongList } from '@/app/components/song/song';
@@ -29,6 +30,7 @@ export default async function Page({ params }: { params: Promise<{ username: str
       <RizuPageColumns>
         <RizuPageLeft>
           <RizuAvatar src={user.avatar} alt={user.username} />
+          <RizuProfileActions slug={user.slug} />
         </RizuPageLeft>
         <RizuPageRight>
           <Recents username={username} />

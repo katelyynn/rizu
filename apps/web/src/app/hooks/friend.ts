@@ -9,6 +9,7 @@ export function useFriendStatus(slug: string) {
   const { user } = useAuth();
   const [ status, setStatus ] = useState<friendStatus>('none');
   const [ loading, setLoading ] = useState(false);
+  const [ requestId, setRequestId ] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) {
@@ -32,18 +33,63 @@ export function useFriendStatus(slug: string) {
     fetchStatus();
   }, [ user, slug ]);
 
-  const handleSendRequest = async () => {
-    if (status != 'none') return;
-
+  const handleAction = async () => {
     setLoading(true);
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/friends/request/${slug}`, {
-        method: 'POST',
-        credentials: 'include'
-      });
 
-      if (res.ok) {
-        setStatus('outgoing');
+    try {
+      let res: Response;
+
+      switch (status) {
+        case 'none':
+          res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/friends/request/${slug}`, {
+            method: 'POST',
+            credentials: 'include'
+          });
+
+          if (res.ok) {
+            setStatus('outgoing');
+          }
+
+          break;
+        case 'outgoing':
+          if (!requestId) break;
+
+          res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/friends/revoke/${requestId}`, {
+            method: 'POST',
+            credentials: 'include'
+          });
+
+          if (res.ok) {
+            setStatus('none');
+          }
+
+          break;
+        case 'incoming':
+          if (!requestId) break;
+
+          res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/friends/accept/${requestId}`, {
+            method: 'POST',
+            credentials: 'include'
+          });
+
+          if (res.ok) {
+            setStatus('friends');
+          }
+
+          break;
+        case 'friends':
+          if (!requestId) break;
+
+          res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/friends/remove/${slug}`, {
+            method: 'POST',
+            credentials: 'include'
+          });
+
+          if (res.ok) {
+            setStatus('none');
+          }
+
+          break;
       }
     } catch (error) {
       console.error(error);
@@ -60,10 +106,13 @@ export function useFriendStatus(slug: string) {
     default: break;
   }
 
+  const isActionable = status != 'unavailable';
+
   return {
     status,
     loading,
-    handleSendRequest,
-    buttonText
+    handleAction,
+    buttonText,
+    isActionable
   };
 }

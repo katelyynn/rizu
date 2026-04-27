@@ -4,13 +4,14 @@ import styles from "./input.module.css";
 interface RizuInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string,
   error?: string,
-  className?: string
+  className?: string,
+  classNameContainer?: string
 }
 
 const RizuInput = forwardRef<HTMLInputElement, RizuInputProps>(
-  ({ label, error, className, ...props }, ref) => {
+  ({ label, error, className, classNameContainer, ...props }, ref) => {
     return (
-      <div className={styles.container}>
+      <div className={`${styles.container} ${classNameContainer ? classNameContainer : ''}`}>
         {label && (
           <label className={styles.label}>
             {label}

@@ -26,6 +26,6 @@
   font-size: 12px;
 
   &:focus-visible {
-    border: 1px solid #aa3442;
+    border: 1px solid #f55d6f;
   }
 }

@@ -1,6 +1,7 @@
 .bottom {
   background: linear-gradient(180deg, transparent, #aa3442);
   box-shadow: 0 1px 0 0 inset rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid #881c29;
 
   display: flex;
 }
@@ -21,6 +22,7 @@
   height: 28px;
 
   color: #fff;
+  text-shadow: 0 1px 0 #881c29;
   text-decoration: none;
 
   &:hover {

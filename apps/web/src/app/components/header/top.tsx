@@ -9,7 +9,7 @@ export function RizuTop() {
         <Link className={styles.logo} href="/">rizu (alpha)</Link>
       </div>
       <div className={styles.searchContainer}>
-        <RizuInput className={styles.search} placeholder="What's on your mind?" />
+        <RizuInput className={styles.search} classNameContainer={styles.searchParent} placeholder="What's on your mind?" />
       </div>
     </div>
   )

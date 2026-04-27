@@ -97,6 +97,8 @@ a {
 
 header {
   background: #CC5A63;
+  border-left: 1px solid #9b2735;
+  border-right: 1px solid #9b2735;
 }
 
 strong, b {

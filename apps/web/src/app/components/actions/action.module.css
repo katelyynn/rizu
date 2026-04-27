@@ -1,0 +1,27 @@
+.actions {
+  margin-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.action {
+  appearance: none;
+  border: none;
+  border-bottom: 1px solid #ccc;
+
+  padding: 4px 10px;
+
+  color: var(--link);
+
+  background: unset;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

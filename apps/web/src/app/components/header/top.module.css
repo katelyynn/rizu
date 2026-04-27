@@ -14,6 +14,7 @@
 
 .logo {
   color: #fff;
+  text-shadow: 0 2px 0 #881c29;
   text-decoration: none;
 
   font-size: 14px;
@@ -25,4 +26,13 @@
   height: 22px !important;
   border-radius: 50px !important;
   padding: 0 10px !important;
+}
+
+.searchParent {
+  margin: unset !important;
+}
+
+.searchContainer {
+  border-radius: 50px;
+  box-shadow: 0 2px 4px #881c29;
 }

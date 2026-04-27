@@ -68,6 +68,70 @@ friendRoutes.post('/accept/:id', async (c) => {
   return c.json({ message: 'accepted friend request' }, 200);
 });
 
+friendRoutes.post('/revoke/:id', async (c) => {
+  const userId = await getAuthUser(c);
+  if (!userId) {
+    return c.json({ error: 'unauthorised' }, 401);
+  }
+
+  const id = c.req.param('id');
+
+  // dont allow people to see friend requests they cant access
+  // based on the error sent being different
+  const notFound = c.json({ error: 'request not found' }, 404);
+
+  const requestList = await db.select().from(friendRequests).where(eq(friendRequests.id, id)).limit(1);
+
+  if (requestList.length == 0) return notFound;
+
+  const request = requestList[0];
+
+  if (request.sender != userId) return notFound;
+
+  await db.delete(friendRequests).where(eq(friendRequests.id, id));
+  return c.json({ message: 'revoked friend request' }, 200);
+});
+
+friendRoutes.post('/remove/:slug', async (c) => {
+  const userId = await getAuthUser(c);
+  if (!userId) {
+    return c.json({ error: 'unauthorised' }, 401);
+  }
+
+  const slug = c.req.param('slug');
+
+  const target = await db.select({ id: users.id }).from(users).where(eq(users.slug, slug)).limit(1);
+  if (target.length == 0) return c.json({ error: 'user not found' }, 404);
+
+  const targetId = target[0].id;
+
+  const friendship = await db.select().from(friendships).where(
+    and(
+      eq(friendships.user, userId),
+      eq(friendships.friend, targetId)
+    )
+  ).limit(1);
+
+  if (friendship.length == 0) {
+    return c.json({ error: 'you are not friends' }, 400);
+  }
+
+  await db.delete(friendships).where(
+    and(
+      eq(friendships.user, userId),
+      eq(friendships.friend, targetId)
+    )
+  );
+  await db.delete(friendships).where(
+    and(
+      eq(friendships.user, targetId),
+      eq(friendships.friend, userId)
+    )
+  );
+
+  return c.json({ message: 'removed friendship' }, 200);
+});
+
 friendRoutes.get('/incoming', async (c) => {
   const userId = await getAuthUser(c);
   if (!userId) {
@@ -169,7 +233,7 @@ friendRoutes.get('/status/:slug', async (c) => {
       eq(friendRequests.receiver, targetId)
     )
   ).limit(1);
-  if (sentRequest.length > 0) return c.json({ status: 'outgoing' }, 200);
+  if (sentRequest.length > 0) return c.json({ status: 'outgoing', id: sentRequest[0].id }, 200);
 
   const receivedRequest = await db.select().from(friendRequests).where(
     and(
@@ -177,7 +241,7 @@ friendRoutes.get('/status/:slug', async (c) => {
       eq(friendRequests.receiver, userId)
     )
   ).limit(1);
-  if (receivedRequest.length > 0) return c.json({ status: 'incoming' }, 200);
+  if (receivedRequest.length > 0) return c.json({ status: 'incoming', id: receivedRequest[0].id }, 200);
 
   return c.json({ status: 'none' }, 200);
 });
