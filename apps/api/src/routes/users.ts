@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { db } from '../db';
 import { albums, artists, listens, songs, users } from '../db/schema';
-import { desc, eq } from 'drizzle-orm';
+import { desc, eq, sql } from 'drizzle-orm';
 
 export const userRoutes = new Hono();
 
@@ -22,6 +22,29 @@ userRoutes.get('/:slug', async (c) => {
   }
 
   return c.json(user[0]);
+});
+
+userRoutes.get('/:slug/stats', async (c) => {
+  const slug = c.req.param('slug');
+
+  const user = await db.select({ id: users.id }).from(users).where(eq(users.slug, slug)).limit(1);
+  if (user.length == 0) {
+    return c.json({ error: 'user not found' }, 404);
+  }
+  const userId = user[0].id;
+
+  const stats = await db
+    .select({
+      listens: sql<number>`COUNT(${listens.id})::int`.as('listens'),
+      artists: sql<number>`COUNT(DISTINCT ${songs.artist})::int`.as('artists'),
+      albums: sql<number>`COUNT(DISTINCT ${listens.album})::int`.as('albums'),
+      songs: sql<number>`COUNT(DISTINCT ${listens.song})::int`.as('songs')
+    })
+    .from(listens)
+    .leftJoin(songs, eq(listens.song, songs.id))
+    .where(eq(listens.user, userId));
+
+  return c.json(stats[0]);
 });
 
 userRoutes.get('/:slug/recent', async (c) => {

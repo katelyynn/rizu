@@ -5,7 +5,7 @@ import { RizuInfo } from '@/app/components/info/info';
 import { RizuPageColumns, RizuPageLeft, RizuPageRight, RizuPageTopInset, RizuPageTopInsetTitle } from '@/app/components/page/page';
 import { RizuSong, RizuSongList } from '@/app/components/song/song';
 import NotFound from '@/app/not-found';
-import { Listen, UserSnippet } from '@rizu/shared';
+import { Listen, UserSnippet, UserStats } from '@rizu/shared';
 
 export default async function Page({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -38,10 +38,11 @@ export default async function Page({ params }: { params: Promise<{ username: str
             <RizuInfo label="Joined">
               {join}
             </RizuInfo>
+            <Stats username={user.slug} />
           </section>
         </RizuPageLeft>
         <RizuPageRight>
-          <Recents username={username} />
+          <Recents username={user.slug} />
         </RizuPageRight>
       </RizuPageColumns>
     </>
@@ -64,5 +65,24 @@ export async function Recents({ username }: { username: string }) {
         {recent.map((recent: Listen) => <RizuSong listen={recent} key={recent.listen.id} />)}
       </RizuSongList>
     </section>
+  )
+}
+
+export async function Stats({ username }: { username: string }) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/${username}/stats`);
+
+  if (!res.ok) {
+    return <NotFound />
+  }
+
+  const stats: UserStats = await res.json();
+
+  return (
+    <>
+      <RizuInfo label="Listens">{stats.listens}</RizuInfo>
+      <RizuInfo label="Artists">{stats.artists}</RizuInfo>
+      <RizuInfo label="Albums">{stats.albums}</RizuInfo>
+      <RizuInfo label="Songs">{stats.songs}</RizuInfo>
+    </>
   )
 }

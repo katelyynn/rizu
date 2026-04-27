@@ -7,6 +7,13 @@ export interface UserSnippet {
   about?: string
 }
 
+export interface UserStats {
+  listens: number,
+  artists: number,
+  albums: number,
+  songs: number
+}
+
 export interface ArtistSnippet {
   id: string,
   name: string,
