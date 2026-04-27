@@ -4,8 +4,8 @@ import styles from "./top.module.css";
 export function RizuTop() {
   return (
     <div className={styles.top}>
-      <div className={styles.logo}>
-        <Link href="/">rizu</Link>
+      <div className={styles.logos}>
+        <Link className={styles.logo} href="/">rizu (alpha)</Link>
       </div>
       <div className={styles.search}>
         search
