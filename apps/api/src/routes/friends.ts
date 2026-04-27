@@ -139,3 +139,45 @@ friendRoutes.get('/list', async (c) => {
 
   return c.json(friends);
 });
+
+friendRoutes.get('/status/:slug', async (c) => {
+  const userId = await getAuthUser(c);
+  if (!userId) {
+    return c.json({ error: 'unauthorised' }, 401);
+  }
+
+  const slug = c.req.param('slug');
+
+  const target = await db.select({ id: users.id }).from(users).where(eq(users.slug, slug)).limit(1);
+  if (target.length == 0) return c.json({ error: 'user not found' }, 404);
+
+  const targetId = target[0].id;
+
+  if (userId == targetId) return c.json({ error: 'this is you' }, 200);
+
+  const isFriend = await db.select().from(friendships).where(
+    and(
+      eq(friendships.user, userId),
+      eq(friendships.friend, targetId)
+    )
+  ).limit(1);
+  if (isFriend.length > 0) return c.json({ status: 'friends' }, 200);
+
+  const sentRequest = await db.select().from(friendRequests).where(
+    and(
+      eq(friendRequests.sender, userId),
+      eq(friendRequests.receiver, targetId)
+    )
+  ).limit(1);
+  if (sentRequest.length > 0) return c.json({ status: 'outgoing' }, 200);
+
+  const receivedRequest = await db.select().from(friendRequests).where(
+    and(
+      eq(friendRequests.sender, targetId),
+      eq(friendRequests.receiver, userId)
+    )
+  ).limit(1);
+  if (receivedRequest.length > 0) return c.json({ status: 'incoming' }, 200);
+
+  return c.json({ status: 'none' }, 200);
+});
