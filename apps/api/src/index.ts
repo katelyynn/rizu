@@ -3,6 +3,9 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { authRoutes } from './routes/auth';
 import { userRoutes } from './routes/users';
+import { artistRoutes } from './routes/artists';
+import { albumRoutes } from './routes/albums';
+import { songRoutes } from './routes/songs';
 
 const app = new Hono({ strict: false });
 
@@ -13,6 +16,9 @@ app.use('*', cors({
 
 app.route('/api/auth', authRoutes);
 app.route('/api/user', userRoutes);
+app.route('/api/artist', artistRoutes);
+app.route('/api/album', albumRoutes);
+app.route('/api/song', songRoutes);
 
 app.get('/api/tracks', (c) => {
   const tracks = [

@@ -40,6 +40,10 @@ function Auth() {
     return (
       <div className={styles.right}>
         <BottomNavLinkSep />
+        <BottomNavLink href={`/listen`}>
+          Create
+        </BottomNavLink>
+        <BottomNavLinkSep />
         <BottomNavLink href={`/user/${user.slug}`}>
           {user.username}
         </BottomNavLink>

@@ -100,12 +100,20 @@ authRoutes.get('/me', async (c) => {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
 
-    return c.json({
-      user: {
-        id: payload.id,
-        username: payload.username
-      }
-    });
+    const userId = payload.id as string;
+    if (!userId) return c.json({ user: null }, 200);
+
+    const user = await db.select({
+      id: users.id,
+      username: users.username,
+      slug: users.slug
+    }).from(users).where(eq(users.id, userId)).limit(1);
+
+    if (user.length == 0) {
+      return c.json({ user: null }, 200);
+    }
+
+    return c.json({ user: user[0] });
   } catch (error) {
     return c.json({ user: null }, 200);
   }
