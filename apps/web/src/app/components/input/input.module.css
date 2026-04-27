@@ -22,6 +22,9 @@
 
   width: 250px;
 
+  font: inherit;
+  font-size: 12px;
+
   &:focus-visible {
     border: 1px solid #aa3442;
   }

@@ -6,6 +6,7 @@ import { userRoutes } from './routes/users';
 import { artistRoutes } from './routes/artists';
 import { albumRoutes } from './routes/albums';
 import { songRoutes } from './routes/songs';
+import { listenRoutes } from './routes/listens';
 
 const app = new Hono({ strict: false });
 
@@ -19,6 +20,7 @@ app.route('/api/user', userRoutes);
 app.route('/api/artist', artistRoutes);
 app.route('/api/album', albumRoutes);
 app.route('/api/song', songRoutes);
+app.route('/api/listen', listenRoutes);
 
 app.get('/api/tracks', (c) => {
   const tracks = [
