@@ -1,0 +1,36 @@
+.bottom {
+  background: linear-gradient(180deg, transparent, #aa3442);
+  box-shadow: 0 1px 0 0 inset rgba(255, 255, 255, 0.15);
+
+  display: flex;
+}
+
+.left {
+  flex: 1;
+}
+
+.left, .right {
+  display: flex;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  padding: 0 10px;
+  height: 28px;
+
+  color: #fff;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #aa3442;
+  }
+}
+
+.sep {
+  display: block;
+  width: 1px;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.17);
+}

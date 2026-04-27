@@ -3,8 +3,8 @@ import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import bcrypt from 'bcryptjs';
-import { SignJWT } from 'jose';
-import { setCookie } from 'hono/cookie';
+import { jwtVerify, SignJWT } from 'jose';
+import { getCookie, setCookie } from 'hono/cookie';
 
 export const authRoutes = new Hono();
 
@@ -76,8 +76,33 @@ authRoutes.post('/login', async (c) => {
       maxAge: 60 * 60 * 24 * 7
     });
 
-    return c.json({ message: 'logged in!' });
+    return c.json({
+      message: 'logged in!',
+      user: { id: user[0].id, username: user[0].username }
+    });
   } catch (error) {
     return c.json({ error: error.message }, 500);
   }
-})
+});
+
+authRoutes.get('/me', async (c) => {
+  try {
+    const token = getCookie(c, 'rizuToken');
+
+    if (!token) {
+      return c.json({ user: null }, 200);
+    }
+
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret);
+
+    return c.json({
+      user: {
+        id: payload.id,
+        username: payload.username
+      }
+    });
+  } catch (error) {
+    return c.json({ user: null }, 200);
+  }
+});

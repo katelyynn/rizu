@@ -1,0 +1,10 @@
+.top {
+  background: linear-gradient(180deg, transparent, #be3d4c);
+  padding: 12px 14px;
+
+  display: flex;
+}
+
+.logo {
+  flex: 1;
+}
