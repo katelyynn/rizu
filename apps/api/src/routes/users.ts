@@ -13,7 +13,8 @@ userRoutes.get('/:slug', async (c) => {
     username: users.username,
     slug: users.slug,
     born: users.born,
-    avatar: users.avatar
+    avatar: users.avatar,
+    about: users.about
   }).from(users).where(eq(users.slug, slug)).limit(1);
 
   if (user.length == 0) {

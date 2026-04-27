@@ -3,7 +3,8 @@ export interface UserSnippet {
   username: string,
   slug: string,
   born: string,
-  avatar?: string
+  avatar?: string,
+  about?: string
 }
 
 export interface ArtistSnippet {

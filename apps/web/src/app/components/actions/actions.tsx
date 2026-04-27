@@ -4,6 +4,7 @@ import React from 'react';
 import styles from "./action.module.css";
 import { useAuth } from '../auth/auth_context';
 import { useFriendStatus } from '@/app/hooks/friend';
+import Link from 'next/link';
 
 interface RizuActionsProps {
   children: React.ReactNode
@@ -25,10 +26,14 @@ export function RizuProfileActions({ slug }: { slug: string }) {
 
   return (
     <RizuActions>
-      {(user && user.slug != slug && isActionable) && (
+      {(user) && (user.slug != slug && isActionable) ? (
         <button onClick={handleAction} disabled={loading} className={styles.action}>
           {loading ? 'Loading...' : buttonText}
         </button>
+      ) : (
+        <Link href="/settings" className={styles.action}>
+          Edit profile
+        </Link>
       )}
     </RizuActions>
   )

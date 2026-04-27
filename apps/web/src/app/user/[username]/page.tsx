@@ -1,5 +1,7 @@
+import { RizuAbout } from '@/app/components/about/about';
 import { RizuProfileActions } from '@/app/components/actions/actions';
 import { RizuAvatar } from '@/app/components/avatar/avatar';
+import { RizuInfo } from '@/app/components/info/info';
 import { RizuPageColumns, RizuPageLeft, RizuPageRight, RizuPageTopInset, RizuPageTopInsetTitle } from '@/app/components/page/page';
 import { RizuSong, RizuSongList } from '@/app/components/song/song';
 import NotFound from '@/app/not-found';
@@ -31,15 +33,17 @@ export default async function Page({ params }: { params: Promise<{ username: str
         <RizuPageLeft>
           <RizuAvatar src={user.avatar} alt={user.username} />
           <RizuProfileActions slug={user.slug} />
+          <RizuAbout text={user.about} placeholder={`${user.username} is keeping quiet for now`} />
+          <section>
+            <RizuInfo label="Joined">
+              {join}
+            </RizuInfo>
+          </section>
         </RizuPageLeft>
         <RizuPageRight>
           <Recents username={username} />
         </RizuPageRight>
       </RizuPageColumns>
-      <div>
-        <strong>{user.username}</strong>
-        <p>joined {join}</p>
-      </div>
     </>
   )
 }
@@ -54,11 +58,11 @@ export async function Recents({ username }: { username: string }) {
   const recent = await res.json();
 
   return (
-    <div>
-      <h3>journal</h3>
+    <section>
+      <h3>Recent listening</h3>
       <RizuSongList>
         {recent.map((recent: Listen) => <RizuSong listen={recent} key={recent.listen.id} />)}
       </RizuSongList>
-    </div>
+    </section>
   )
 }

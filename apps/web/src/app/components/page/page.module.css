@@ -12,6 +12,10 @@
 .left {
   width: var(--big-avatar-size);
   flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .right {

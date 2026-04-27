@@ -1,6 +1,4 @@
 .actions {
-  margin-top: 10px;
-
   display: flex;
   flex-direction: column;
 }
@@ -8,7 +6,7 @@
 .action {
   appearance: none;
   border: none;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid currentColor;
 
   padding: 4px 10px;
 
@@ -22,6 +20,7 @@
   cursor: pointer;
 
   &:hover {
-    text-decoration: underline;
+    background-color: #e6485a21;
+    text-decoration: none;
   }
 }
