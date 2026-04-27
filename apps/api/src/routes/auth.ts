@@ -106,7 +106,8 @@ authRoutes.get('/me', async (c) => {
     const user = await db.select({
       id: users.id,
       username: users.username,
-      slug: users.slug
+      slug: users.slug,
+      avatar: users.avatar
     }).from(users).where(eq(users.id, userId)).limit(1);
 
     if (user.length == 0) {

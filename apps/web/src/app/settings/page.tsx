@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SettingsTabs } from './components/tab/tab';
 import RizuInput from '../components/input/input';
+import { useAuth } from '../components/auth/auth_context';
 
 export default function Page() {
   return (
@@ -14,8 +15,13 @@ export default function Page() {
 }
 
 function AvatarUploader() {
+  const { user } = useAuth();
   const [ avatar, setAvatar ] = useState('');
   const [ error, setError ] = useState('');
+
+  useEffect(() => {
+    setAvatar(user?.avatar || '');
+  }, [ user ]);
 
   const handleAvatar = async (e: SubmitEvent) => {
     e.preventDefault();

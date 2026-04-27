@@ -1,6 +1,7 @@
+import { RizuAvatar } from '@/app/components/avatar/avatar';
 import { RizuSong, RizuSongList } from '@/app/components/song/song';
 import NotFound from '@/app/not-found';
-import { Listen } from '@rizu/shared';
+import { Listen, UserSnippet } from '@rizu/shared';
 
 export default async function Page({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -11,7 +12,7 @@ export default async function Page({ params }: { params: Promise<{ username: str
     return <NotFound />
   }
 
-  const user = await res.json();
+  const user: UserSnippet = await res.json();
 
   const join = new Date(user.born).toLocaleDateString('en-GB', {
     year: 'numeric',
@@ -22,6 +23,7 @@ export default async function Page({ params }: { params: Promise<{ username: str
   return (
     <>
       <div>
+        <RizuAvatar src={user.avatar} alt={user.username} />
         <strong>{user.username}</strong>
         <p>joined {join}</p>
       </div>
