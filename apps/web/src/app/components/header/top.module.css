@@ -25,7 +25,7 @@
   font-size: 11px !important;
   height: 22px !important;
   border-radius: 50px !important;
-  padding: 0 10px !important;
+  padding: 0 calc(10px + 12px) 0 10px !important;
 }
 
 .searchParent {
@@ -35,4 +35,23 @@
 .searchContainer {
   border-radius: 50px;
   box-shadow: 0 2px 4px #881c29;
+
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 6px;
+    bottom: 0;
+
+    background-image: url('/search.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 12px;
+
+    pointer-events: none;
+
+    opacity: 0.9;
+  }
 }
