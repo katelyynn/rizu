@@ -1,0 +1,29 @@
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.song {
+  display: flex;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  color: #000;
+}
+.artist {
+  color: #333;
+  font-size: 12px;
+}
+
+.name, .artist {
+  width: fit-content;
+
+  &:hover {
+    color: var(--link);
+  }
+}

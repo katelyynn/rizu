@@ -75,6 +75,7 @@ listenRoutes.post('/', async (c) => {
       user: userId,
       song: song.id,
       album: album?.id,
+      duration,
       played: playedAt
     });
 
