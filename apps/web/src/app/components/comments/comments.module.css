@@ -1,0 +1,40 @@
+.hasParent {
+  margin-left: 20px;
+}
+
+.comment {
+  display: flex;
+  gap: 10px;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bubble {
+  background: #eee;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.username {
+  font-size: 12px;
+}
+.time {
+  font-size: 11px;
+  color: #999;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.children {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
