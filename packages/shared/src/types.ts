@@ -7,6 +7,13 @@ export interface UserSnippet {
   about?: string
 }
 
+export interface Author {
+  id: string,
+  username: string,
+  slug: string,
+  avatar?: string
+}
+
 export interface UserStats {
   listens: number,
   artists: number,
@@ -64,4 +71,13 @@ export interface Listen {
   song: Song,
   artist: Artist,
   album?: Album
+}
+
+export interface Comment {
+  id: string,
+  content: string,
+  created: string,
+  parent: string | null,
+  author: Author,
+  children?: Comment[]
 }
