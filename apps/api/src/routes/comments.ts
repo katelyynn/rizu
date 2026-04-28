@@ -42,13 +42,15 @@ commentRoutes.post('/', async (c) => {
     targetId: id
   }).returning();
 
+  const author = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+
   await db.insert(activities).values({
     user: userId,
     type: 'comment',
     target: newComment.id
   });
 
-  return c.json({ message: 'posted comment', comment: newComment }, 201);
+  return c.json({ message: 'posted comment', comment: { ...newComment, author: author[0] } }, 201);
 });
 
 commentRoutes.get('/:type/:id', async (c) => {

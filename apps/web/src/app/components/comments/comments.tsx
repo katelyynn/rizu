@@ -45,7 +45,7 @@ export function RizuComments({
       author: user
     };
 
-    setComments(prev => [tempComment].concat(prev));
+    setComments(prev => [ tempComment, ...prev ]);
     setText('');
 
     try {
@@ -64,18 +64,11 @@ export function RizuComments({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'failed to post');
 
-      const realComment = JSON.parse(JSON.stringify(data.comment));
-      const tempId = JSON.stringify(tempComment.id);
-
-      setComments(prev => {
-        return prev.filter(c => c && JSON.stringify(c.id) != tempId)
-        .concat([realComment]);
-      });
+      setComments(prev => prev.map(c => c.id == tempComment.id ? data.comment : c));
     } catch (error) {
-      setComments(prev => prev.filter(c => c && JSON.stringify(c.id) != JSON.stringify(tempComment.id)));
+      setComments(prev => prev.filter(c => c.id != tempComment.id));
       setText(content);
-      setError(error.message || 'failed to post');
-      console.error(error);
+      setError(error);
     } finally {
       setLoading(false);
     }
