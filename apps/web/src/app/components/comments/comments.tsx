@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../auth/auth_context';
 import styles from "./comments.module.css";
-import { Comment } from '@rizu/shared';
+import { Author, Comment } from '@rizu/shared';
 import { RizuAvatar } from '../avatar/avatar';
 import Link from 'next/link';
 import { RizuMarkdown } from '../markdown/markdown';
@@ -91,19 +91,48 @@ export function RizuComments({
   }
 
   const nested = buildTree(comments);
+
+  return (
+    <li className={styles.comments}>
+      {user && (
+        <RizuCommentForm author={user} text={text} setText={setText} loading={loading} onSubmit={submitComment} />
+      )}
+      {nested.map(comment => (
+        <RizuComment key={comment.id} comment={comment} user={user} type={type} id={id} onReply={submitComment} />
+      ))}
+    </li>
+  )
 }
 
 interface RizuCommentFormProps {
-
+  author: Author,
+  text: string,
+  setText: (text: string) => void,
+  loading: boolean,
+  onSubmit: (content: string, parent: string | null) => void
 }
 
 function RizuCommentForm({
-
+  author,
+  text,
+  setText,
+  loading,
+  onSubmit
 }: RizuCommentFormProps) {
   // hybrid for replies and main form
+
+  return (
+    <li className={styles.commentForm}>
+      <RizuAvatar src={author.avatar} alt={author.username} />
+      <Link className={styles.username} href={`/user/${author.slug}`}>{author.username}</Link>
+      <textarea className={styles.textarea} value={text} onChange={e => setText(e.target.value)} disabled={loading} />
+      <button disabled={loading || !text.trim()}>post</button>
+    </li>
+  )
 }
 
 interface RizuCommentProps {
+  user?: Author,
   comment: Comment,
   type: string,
   id: string,
@@ -111,6 +140,7 @@ interface RizuCommentProps {
 }
 
 function RizuComment({
+  user,
   comment,
   type,
   id,
@@ -132,14 +162,18 @@ function RizuComment({
       <Link className={styles.username} href={`/user/${comment.author.slug}`}>{comment.author.username}</Link>
       <RizuMarkdown text={comment.content} />
       <p className={styles.time}>{DateTime.fromISO(comment.created).toRelative()}</p>
-      <button onClick={() => setShowForm(!showForm)}>reply</button>
+      {user && (<button onClick={() => setShowForm(!showForm)}>reply</button>)}
       <p>---</p>
-      {showForm && (
-        <form onSubmit={handleReply}>
-          // use rizucomment form
-        </form>
+      {(showForm && user) && (
+        <RizuCommentForm onSubmit={handleReply} text={text} setText={setText} author={user} />
       )}
-      // show children
+      {comment.children && comment.children.length > 0 && (
+        <li className={styles.children}>
+          {comment.children.map(child => (
+            <RizuComment key={child.id} comment={child} user={user} type={type} id={id} onReply={onReply} />
+          ))}
+        </li>
+      )}
     </li>
   )
 }

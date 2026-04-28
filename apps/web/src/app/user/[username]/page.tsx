@@ -1,6 +1,7 @@
 import { RizuAbout } from '@/app/components/about/about';
 import { RizuProfileActions } from '@/app/components/actions/actions';
 import { RizuAvatar } from '@/app/components/avatar/avatar';
+import { RizuComments } from '@/app/components/comments/comments';
 import { RizuInfo } from '@/app/components/info/info';
 import { RizuPageColumns, RizuPageLeft, RizuPageRight, RizuPageTopInset, RizuPageTopInsetTitle } from '@/app/components/page/page';
 import { RizuSong, RizuSongList } from '@/app/components/song/song';
@@ -43,6 +44,7 @@ export default async function Page({ params }: { params: Promise<{ username: str
         </RizuPageLeft>
         <RizuPageRight>
           <Recents username={user.slug} />
+          <RizuComments type="user" id={user.id} />
         </RizuPageRight>
       </RizuPageColumns>
     </>
