@@ -41,11 +41,11 @@ export function RizuComments({
       id: `temp-${Date.now()}`,
       content: content.trim(),
       created: new Date().toISOString(),
-      parent: parent,
+      parent: parent || null,
       author: user
     };
 
-    setComments(prev => [ tempComment, ...prev ]);
+    setComments(prev => [tempComment].concat(prev));
     setText('');
 
     try {
@@ -55,7 +55,7 @@ export function RizuComments({
         credentials: 'include',
         body: JSON.stringify({
           content: content.trim(),
-          parent,
+          parent: parent || null,
           type,
           id
         })
@@ -64,11 +64,18 @@ export function RizuComments({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'failed to post');
 
-      setComments(prev => prev.map(c => c.id == tempComment.id ? data.comment : c));
+      const realComment = JSON.parse(JSON.stringify(data.comment));
+      const tempId = JSON.stringify(tempComment.id);
+
+      setComments(prev => {
+        return prev.filter(c => c && JSON.stringify(c.id) != tempId)
+        .concat([realComment]);
+      });
     } catch (error) {
-      setComments(prev => prev.filter(c => c.id != tempComment.id));
+      setComments(prev => prev.filter(c => c && JSON.stringify(c.id) != JSON.stringify(tempComment.id)));
       setText(content);
-      setError(error);
+      setError(error.message || 'failed to post');
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -78,12 +85,25 @@ export function RizuComments({
     const map = new Map<string, Comment>();
     const tree: Comment[] = [];
 
-    flat.forEach(c => map.set(c.id, { ...c, children: [] }));
     flat.forEach(c => {
+      if (c && c.id) {
+        map.set(c.id, Object.assign({}, c, { children: [] }));
+      }
+    });
+
+    flat.forEach(c => {
+      if (!c || !c.id) return;
+
+      const node = map.get(c.id);
+      if (!node) return;
+
       if (c.parent && map.has(c.parent)) {
-        map.get(c.parent)!.children!.push(map.get(c.id)!);
-      } else {
-        tree.push(map.get(c.id)!);
+        const parent = map.get(c.parent);
+        if (parent && parent.children) {
+          parent.children.push(node);
+        }
+      } else if (!c.parent) {
+        tree.push(node);
       }
     });
 
@@ -93,14 +113,16 @@ export function RizuComments({
   const nested = buildTree(comments);
 
   return (
-    <li className={styles.comments}>
+    <section className={styles.comments}>
+      <h3>Comments</h3>
+      {error && <p>Error: {error}</p>}
       {user && (
         <RizuCommentForm author={user} text={text} setText={setText} loading={loading} onSubmit={submitComment} />
       )}
       {nested.map(comment => (
         <RizuComment key={comment.id} comment={comment} user={user} type={type} id={id} onReply={submitComment} />
       ))}
-    </li>
+    </section>
   )
 }
 
@@ -166,7 +188,7 @@ function RizuComment({
       {user && (<button onClick={() => setShowForm(!showForm)}>reply</button>)}
       <p>---</p>
       {(showForm && user) && (
-        <RizuCommentForm onSubmit={handleReply} parent={comment.parent} text={text} setText={setText} author={user} />
+        <RizuCommentForm onSubmit={handleReply} parent={comment.id} text={text} setText={setText} author={user} />
       )}
       {comment.children && comment.children.length > 0 && (
         <div className={styles.children}>

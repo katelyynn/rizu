@@ -48,7 +48,7 @@ commentRoutes.post('/', async (c) => {
     target: newComment.id
   });
 
-  return c.json({ message: 'posted comment', id: newComment.id }, 201);
+  return c.json({ message: 'posted comment', comment: newComment }, 201);
 });
 
 commentRoutes.get('/:type/:id', async (c) => {
