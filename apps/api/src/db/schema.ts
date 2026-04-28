@@ -53,4 +53,26 @@ export const listens = pgTable('listens', {
   song: text('song').notNull().references(() => songs.id),
   album: text('album').references(() => albums.id),
   played: timestamp('played').defaultNow().notNull()
-})
+});
+
+export const comments = pgTable('comments', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  author: text('author').notNull().references(() => users.id),
+  parent: text('parent').references(() => comments.id),
+  content: text('content').notNull(),
+
+  targetType: text('target_type').notNull(),
+  targetId: text('target_id').notNull(),
+
+  created: timestamp('created').defaultNow().notNull()
+});
+
+export const activities = pgTable('activities', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  user: text('user').notNull().references(() => users.id),
+  type: text('type').notNull(),
+
+  target: text('target'),
+  metadata: text('metadata'),
+  created: timestamp('created').defaultNow().notNull()
+});
