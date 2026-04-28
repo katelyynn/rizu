@@ -31,7 +31,7 @@ export function RizuComments({
       .catch(error => console.error(error));
   }, [ type, id ]);
 
-  const submitComment = async (content: string, parent: string | null = null) => {
+  const submitComment = async (content: string, parent?: string) => {
     if (!content.trim() || !user) return;
 
     setLoading(true);
@@ -106,14 +106,16 @@ export function RizuComments({
 
 interface RizuCommentFormProps {
   author: Author,
+  parent?: string,
   text: string,
   setText: (text: string) => void,
   loading: boolean,
-  onSubmit: (content: string, parent: string | null) => void
+  onSubmit: (content: string, parent?: string) => void
 }
 
 function RizuCommentForm({
   author,
+  parent,
   text,
   setText,
   loading,
@@ -122,12 +124,12 @@ function RizuCommentForm({
   // hybrid for replies and main form
 
   return (
-    <div className={styles.commentForm}>
+    <form onSubmit={e => { e.preventDefault(); onSubmit(text, parent); }} className={styles.commentForm}>
       <RizuAvatar src={author.avatar} alt={author.username} />
       <Link className={styles.username} href={`/user/${author.slug}`}>{author.username}</Link>
       <textarea className={styles.textarea} value={text} onChange={e => setText(e.target.value)} disabled={loading} />
       <button disabled={loading || !text.trim()}>post</button>
-    </div>
+    </form>
   )
 }
 
@@ -150,7 +152,6 @@ function RizuComment({
   const [ text, setText ] = useState('');
 
   const handleReply = (e: SubmitEvent) => {
-    e.preventDefault();
     onReply(text, comment.id);
     setText('');
     setShowForm(false);
@@ -165,7 +166,7 @@ function RizuComment({
       {user && (<button onClick={() => setShowForm(!showForm)}>reply</button>)}
       <p>---</p>
       {(showForm && user) && (
-        <RizuCommentForm onSubmit={handleReply} text={text} setText={setText} author={user} />
+        <RizuCommentForm onSubmit={handleReply} parent={comment.parent} text={text} setText={setText} author={user} />
       )}
       {comment.children && comment.children.length > 0 && (
         <div className={styles.children}>
