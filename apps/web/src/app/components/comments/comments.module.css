@@ -29,7 +29,7 @@
   max-height: 150px;
 
   &::placeholder {
-    color: #444 !important;
+    color: var(--placeholder) !important;
     opacity: unset !important;
   }
 
@@ -49,7 +49,11 @@
 }
 
 .bubble {
-  background: #eee;
+  --bg: #f7eaeb;
+  --shadow: #daa9b0;
+  --placeholder: #35161a;
+
+  background: var(--bg);
   padding: 4px 8px;
   border-radius: 4px;
 
@@ -73,11 +77,19 @@
     left: -6px;
     width: 0;
     height: 0;
-    border: 5px solid #eee;
+    border: 5px solid var(--bg);
     border-left-color: transparent;
     border-bottom-color: transparent;
   }
+
+  filter: drop-shadow(0 1px 0 var(--shadow));
 }
+
+/*.ownBubble {
+  --bg: #eee;
+  --shadow: #ccc;
+  --placeholder: #444;
+}*/
 
 .username {
   font-size: 12px;

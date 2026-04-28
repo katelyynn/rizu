@@ -149,7 +149,7 @@ function RizuCommentForm({
         <div className={styles.top}>
           <Link className={styles.username} href={`/user/${author.slug}`}>{author.username}</Link>
         </div>
-        <div className={styles.bubble}>
+        <div className={`${styles.bubble} ${styles.ownBubble}`}>
           <textarea className={styles.textarea} value={text} onChange={e => setText(e.target.value)} disabled={loading} placeholder={placeholder} />
         </div>
         <div className={styles.bottom}>
