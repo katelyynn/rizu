@@ -1,5 +1,5 @@
 .hasParent {
-  margin-left: 20px;
+  margin-left: 0;
 }
 
 .comment {
@@ -13,14 +13,75 @@
   gap: 2px;
 }
 
+.textarea {
+  appearance: none;
+  background: unset;
+  border: none;
+  padding: 4px 8px;
+  font: inherit;
+  outline: none !important;
+
+  margin: -4px -8px;
+
+  min-width: 200px;
+  max-width: 400px;
+  min-height: 50px;
+  max-height: 150px;
+
+  &::placeholder {
+    color: #444 !important;
+    opacity: unset !important;
+  }
+
+  resize: none;
+
+  &:hover {
+    resize: both;
+  }
+}
+
+.avatar {
+  --w: 50px;
+
+  width: var(--w);
+  height: var(--w);
+  border-radius: 6px;
+}
+
 .bubble {
   background: #eee;
   padding: 4px 8px;
   border-radius: 4px;
+
+  max-width: 400px;
+  max-height: 150px;
+
+  width: fit-content;
+
+  margin: 4px 0;
+
+  font-size: 12px;
+
+  position: relative;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+
+    top: 0;
+    left: -6px;
+    width: 0;
+    height: 0;
+    border: 5px solid #eee;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+  }
 }
 
 .username {
   font-size: 12px;
+  font-weight: bold;
 }
 .time {
   font-size: 11px;
@@ -30,11 +91,33 @@
 .comments {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .children {
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  margin-top: 10px;
+}
+
+.bottom {
+  display: flex;
+  gap: 6px;
+}
+
+.action {
+  appearance: none;
+  font: inherit;
+  font-size: 11px;
+  color: var(--link);
+  border: none;
+  padding: unset;
+  background: unset;
+
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

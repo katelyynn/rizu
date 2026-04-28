@@ -110,7 +110,7 @@ export function RizuComments({
       <h3>Comments</h3>
       {error && <p>Error: {error}</p>}
       {user && (
-        <RizuCommentForm author={user} text={text} setText={setText} loading={loading} onSubmit={submitComment} />
+        <RizuCommentForm author={user} text={text} setText={setText} loading={loading} onSubmit={submitComment} placeholder={`leave a comment...`} />
       )}
       <div className={styles.children}>
         {nested.map(comment => (
@@ -127,7 +127,8 @@ interface RizuCommentFormProps {
   text: string,
   setText: (text: string) => void,
   loading: boolean,
-  onSubmit: (content: string, parent?: string) => void
+  onSubmit: (content: string, parent?: string) => void,
+  placeholder: string
 }
 
 function RizuCommentForm({
@@ -136,16 +137,25 @@ function RizuCommentForm({
   text,
   setText,
   loading,
-  onSubmit
+  onSubmit,
+  placeholder
 }: RizuCommentFormProps) {
   // hybrid for replies and main form
 
   return (
-    <form onSubmit={e => { e.preventDefault(); onSubmit(text, parent); }} className={`${styles.commentForm} ${parent ? styles.hasParent : ''}`}>
-      <RizuAvatar src={author.avatar} alt={author.username} />
-      <Link className={styles.username} href={`/user/${author.slug}`}>{author.username}</Link>
-      <textarea className={styles.textarea} value={text} onChange={e => setText(e.target.value)} disabled={loading} />
-      <button disabled={loading || !text.trim()}>post</button>
+    <form onSubmit={e => { e.preventDefault(); onSubmit(text, parent); }} className={`${styles.comment} ${styles.commentForm} ${parent ? styles.hasParent : ''}`}>
+      <RizuAvatar className={styles.avatar} src={author.avatar} alt={author.username} />
+      <div className={styles.side}>
+        <div className={styles.top}>
+          <Link className={styles.username} href={`/user/${author.slug}`}>{author.username}</Link>
+        </div>
+        <div className={styles.bubble}>
+          <textarea className={styles.textarea} value={text} onChange={e => setText(e.target.value)} disabled={loading} placeholder={placeholder} />
+        </div>
+        <div className={styles.bottom}>
+          <button className={styles.action} disabled={loading || !text.trim()}>post</button>
+        </div>
+      </div>
     </form>
   )
 }
@@ -176,7 +186,7 @@ function RizuComment({
 
   return (
     <div className={`${styles.comment} ${comment.parent ? styles.hasParent : ''}`}>
-      <RizuAvatar src={comment.author.avatar} alt={comment.author.username} />
+      <RizuAvatar className={styles.avatar} src={comment.author.avatar} alt={comment.author.username} />
       <div className={styles.side}>
         <div className={styles.top}>
           <Link className={styles.username} href={`/user/${comment.author.slug}`}>{comment.author.username}</Link>
@@ -184,10 +194,14 @@ function RizuComment({
         <div className={styles.bubble}>
           <RizuMarkdown text={comment.content} />
         </div>
-        <p className={styles.time}>{DateTime.fromISO(comment.created).toRelative()}</p>
-        {user && (<button onClick={() => setShowForm(!showForm)}>reply</button>)}
+        <div className={styles.bottom}>
+          {user && (<button className={styles.action} onClick={() => setShowForm(!showForm)}>Reply</button>)}
+          <p className={styles.time}>{DateTime.fromISO(comment.created).toRelative()}</p>
+        </div>
         {(showForm && user) && (
-          <RizuCommentForm onSubmit={handleReply} parent={comment.id} text={text} setText={setText} author={user} />
+          <div className={styles.children}>
+            <RizuCommentForm onSubmit={handleReply} parent={comment.id} text={text} setText={setText} author={user} placeholder={`leave a reply...`} />
+          </div>
         )}
         {comment.children && comment.children.length > 0 && (
           <div className={styles.children}>
