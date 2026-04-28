@@ -128,7 +128,8 @@ interface RizuCommentFormProps {
   setText: (text: string) => void,
   loading: boolean,
   onSubmit: (content: string, parent?: string) => void,
-  placeholder: string
+  placeholder: string,
+  cancel?: () => void
 }
 
 function RizuCommentForm({
@@ -138,7 +139,8 @@ function RizuCommentForm({
   setText,
   loading,
   onSubmit,
-  placeholder
+  placeholder,
+  cancel
 }: RizuCommentFormProps) {
   // hybrid for replies and main form
 
@@ -151,7 +153,8 @@ function RizuCommentForm({
           <textarea className={styles.textarea} value={text} onChange={e => setText(e.target.value)} disabled={loading} placeholder={placeholder} />
         </div>
         <div className={styles.bottom}>
-          <button className={styles.action} disabled={loading || !text.trim()}>post</button>
+          <button className={styles.action} disabled={loading || !text.trim()}>Post</button>
+          {cancel && <button className={styles.action} onClick={cancel}>Cancel</button>}
         </div>
       </div>
     </form>
@@ -196,7 +199,7 @@ function RizuComment({
         </div>
         {(showForm && user) && (
           <div className={styles.children}>
-            <RizuCommentForm onSubmit={handleReply} parent={comment.id} text={text} setText={setText} author={user} placeholder={`leave a reply...`} />
+            <RizuCommentForm onSubmit={handleReply} parent={comment.id} text={text} setText={setText} author={user} placeholder={`leave a reply...`} cancel={() => setShowForm(false)} />
           </div>
         )}
         {comment.children && comment.children.length > 0 && (
