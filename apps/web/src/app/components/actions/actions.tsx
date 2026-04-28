@@ -29,7 +29,7 @@ export function RizuProfileActions({ slug }: { slug: string }) {
       {(user) && (user.slug != slug) ? (
         <>
           <button onClick={handleAction} disabled={loading || !isActionable} className={styles.action}>
-            {loading ? 'Loading...' : buttonText}
+            {buttonText}
           </button>
           <button className={styles.action}>
             Message
