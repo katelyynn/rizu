@@ -47,8 +47,11 @@ export function useFriendStatus(slug: string) {
             credentials: 'include'
           });
 
+          const data = await res.json();
+
           if (res.ok) {
             setStatus('outgoing');
+            setRequestId(data.id);
           }
 
           break;
@@ -99,11 +102,11 @@ export function useFriendStatus(slug: string) {
     }
   };
 
-  let buttonText = 'Add as friend';
+  let buttonText = 'Add Friend';
   switch (status) {
-    case 'outgoing': buttonText = 'Sent request'; break;
-    case 'incoming': buttonText = 'Accept request'; break;
-    case 'friends': buttonText = 'You are friends'; break;
+    case 'outgoing': buttonText = 'Sent'; break;
+    case 'incoming': buttonText = 'Accept'; break;
+    case 'friends': buttonText = 'Friends'; break;
     default: break;
   }
 

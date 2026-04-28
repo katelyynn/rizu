@@ -26,10 +26,21 @@ export function RizuProfileActions({ slug }: { slug: string }) {
 
   return (
     <RizuActions>
-      {(user) && (user.slug != slug && isActionable) ? (
-        <button onClick={handleAction} disabled={loading} className={styles.action}>
-          {loading ? 'Loading...' : buttonText}
-        </button>
+      {(user) && (user.slug != slug) ? (
+        <>
+          <button onClick={handleAction} disabled={loading || !isActionable} className={styles.action}>
+            {loading ? 'Loading...' : buttonText}
+          </button>
+          <button className={styles.action}>
+            Message
+          </button>
+          <button className={styles.action}>
+            Recommend
+          </button>
+          <button className={styles.action}>
+            More...
+          </button>
+        </>
       ) : (
         <Link href="/settings" className={styles.action}>
           Edit profile

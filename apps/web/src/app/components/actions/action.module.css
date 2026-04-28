@@ -6,7 +6,7 @@
 .action {
   appearance: none;
   border: none;
-  border-bottom: 1px solid currentColor;
+  border-bottom: 1px solid #ccc;
 
   padding: 4px 10px;
 

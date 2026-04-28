@@ -34,8 +34,8 @@ friendRoutes.post('/request/:slug', async (c) => {
     return c.json({ error: 'request already sent' }, 409);
   }
 
-  await db.insert(friendRequests).values({ sender: userId, receiver: receiver.id });
-  return c.json({ message: 'sent friend request' }, 201);
+  const [newRequest] = await db.insert(friendRequests).values({ sender: userId, receiver: receiver.id }).returning({ id: friendRequests.id });
+  return c.json({ message: 'sent friend request', id: newRequest.id }, 201);
 });
 
 friendRoutes.post('/accept/:id', async (c) => {
