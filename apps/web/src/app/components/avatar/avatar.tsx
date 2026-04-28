@@ -9,10 +9,10 @@ interface RizuAvatarProps {
 export function RizuAvatar({
   src,
   alt,
-  big
+  big = false
 }: RizuAvatarProps) {
   return (
-    <div className={`${styles.avatar} ${big ?? styles.big}`}>
+    <div className={`${styles.avatar} ${big ? styles.big : ''}`}>
       {src ? (
         <img className={styles.image} src={src} alt={alt} />
       ) : (

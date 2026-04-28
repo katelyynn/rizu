@@ -122,12 +122,12 @@ function RizuCommentForm({
   // hybrid for replies and main form
 
   return (
-    <li className={styles.commentForm}>
+    <div className={styles.commentForm}>
       <RizuAvatar src={author.avatar} alt={author.username} />
       <Link className={styles.username} href={`/user/${author.slug}`}>{author.username}</Link>
       <textarea className={styles.textarea} value={text} onChange={e => setText(e.target.value)} disabled={loading} />
       <button disabled={loading || !text.trim()}>post</button>
-    </li>
+    </div>
   )
 }
 
@@ -157,7 +157,7 @@ function RizuComment({
   }
 
   return (
-    <li className={`${styles.comment} ${comment.parent ? styles.hasParent : ''}`}>
+    <div className={`${styles.comment} ${comment.parent ? styles.hasParent : ''}`}>
       <RizuAvatar src={comment.author.avatar} alt={comment.author.username} />
       <Link className={styles.username} href={`/user/${comment.author.slug}`}>{comment.author.username}</Link>
       <RizuMarkdown text={comment.content} />
@@ -168,12 +168,12 @@ function RizuComment({
         <RizuCommentForm onSubmit={handleReply} text={text} setText={setText} author={user} />
       )}
       {comment.children && comment.children.length > 0 && (
-        <li className={styles.children}>
+        <div className={styles.children}>
           {comment.children.map(child => (
             <RizuComment key={child.id} comment={child} user={user} type={type} id={id} onReply={onReply} />
           ))}
-        </li>
+        </div>
       )}
-    </li>
+    </div>
   )
 }

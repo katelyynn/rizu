@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: Promise<{ username: str
       </RizuPageTopInset>
       <RizuPageColumns>
         <RizuPageLeft>
-          <RizuAvatar src={user.avatar} alt={user.username} />
+          <RizuAvatar src={user.avatar} alt={user.username} big />
           <RizuProfileActions slug={user.slug} />
           <RizuAbout text={user.about} placeholder={`${user.username} is keeping quiet for now`} />
           <section>
