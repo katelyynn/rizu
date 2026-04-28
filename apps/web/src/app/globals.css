@@ -134,3 +134,7 @@ h4 {
   font-weight: bold;
   cursor: default;
 }
+
+::selection {
+  background: #d1163238;
+}

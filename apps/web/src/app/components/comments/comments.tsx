@@ -146,10 +146,8 @@ function RizuCommentForm({
     <form onSubmit={e => { e.preventDefault(); onSubmit(text, parent); }} className={`${styles.comment} ${styles.commentForm} ${parent ? styles.hasParent : ''}`}>
       <RizuAvatar className={styles.avatar} src={author.avatar} alt={author.username} />
       <div className={styles.side}>
-        <div className={styles.top}>
-          <Link className={styles.username} href={`/user/${author.slug}`}>{author.username}</Link>
-        </div>
         <div className={`${styles.bubble} ${styles.ownBubble}`}>
+          <Link className={styles.username} href={`/user/${author.slug}`}>{author.username}</Link>
           <textarea className={styles.textarea} value={text} onChange={e => setText(e.target.value)} disabled={loading} placeholder={placeholder} />
         </div>
         <div className={styles.bottom}>
@@ -188,10 +186,8 @@ function RizuComment({
     <div className={`${styles.comment} ${comment.parent ? styles.hasParent : ''}`}>
       <RizuAvatar className={styles.avatar} src={comment.author.avatar} alt={comment.author.username} />
       <div className={styles.side}>
-        <div className={styles.top}>
-          <Link className={styles.username} href={`/user/${comment.author.slug}`}>{comment.author.username}</Link>
-        </div>
         <div className={styles.bubble}>
+          <Link className={styles.username} href={`/user/${comment.author.slug}`}>{comment.author.username}</Link>
           <RizuMarkdown text={comment.content} />
         </div>
         <div className={styles.bottom}>
