@@ -195,7 +195,7 @@ function RizuComment({
         </div>
         <div className={styles.bottom}>
           {user && (<button className={styles.action} onClick={() => setShowForm(!showForm)}>Reply</button>)}
-          <p className={styles.time}>{DateTime.fromISO(comment.created).toRelative()}</p>
+          <p className={styles.time}>{DateTime.fromISO(comment.created).toRelative({ style: 'short' })}</p>
         </div>
         {(showForm && user) && (
           <div className={styles.children}>

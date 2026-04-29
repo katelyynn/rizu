@@ -32,7 +32,7 @@ export function RizuSong({
         </div>
       )}
       <div className={styles.time}>
-        {DateTime.fromISO(listen.listen.played).toRelative()}
+        {DateTime.fromISO(listen.listen.played).toRelative({ style: 'short' })}
       </div>
     </li>
   )
