@@ -50,11 +50,14 @@
 }
 
 .bubble {
-  --bg: #f7eaeb;
-  --shadow: #daa9b0;
+  --bg: #fff7f8;
+  --bg-bottom: #f1dadb;
+  --shadow-top: #dac6c9;
+  --shadow: #c2a0a5;
   --placeholder: #35161a77;
 
-  background: var(--bg);
+  background: linear-gradient(180deg, var(--bg) 60%, var(--bg-bottom));
+  text-shadow: 0 1px 0 0 #fce0e4;
   padding: 3px 8px 5px;
   border-radius: 4px;
 
@@ -63,7 +66,7 @@
 
   width: fit-content;
 
-  margin: 0 0 4px;
+  margin: 1px 0 4px;
 
   font-size: 12px;
 
@@ -86,7 +89,7 @@
     border-bottom-color: transparent;
   }
 
-  filter: drop-shadow(0 1px 0 var(--shadow));
+  filter: drop-shadow(0 -1px 0 var(--shadow-top)) drop-shadow(0 1px 0 var(--shadow)) drop-shadow(1px 0 0 var(--shadow-top)) drop-shadow(-1px 0 0 var(--shadow-top)) drop-shadow(0 2px 0 #520e1517);
 }
 
 /*.ownBubble {

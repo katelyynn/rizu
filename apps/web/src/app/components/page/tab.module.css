@@ -1,0 +1,23 @@
+.list {
+  margin-top: 32px;
+  margin-bottom: -31px;
+
+  display: flex;
+  gap: 4px;
+}
+
+.tab {
+  padding: 5px 6px;
+  border: 1px solid #ccc;
+  border-bottom-color: transparent !important;
+  font-weight: bold;
+
+  &:not(.active) {
+    background: #ff3e540e;
+    border-color: transparent !important;
+  }
+}
+
+.active {
+  background: #fff;
+}

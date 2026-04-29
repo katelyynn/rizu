@@ -4,21 +4,47 @@ import { RizuAvatar } from '@/app/components/avatar/avatar';
 import { RizuComments } from '@/app/components/comments/comments';
 import { RizuInfo } from '@/app/components/info/info';
 import { RizuPageColumns, RizuPageLeft, RizuPageRight, RizuPageTopInset, RizuPageTopInsetTitle } from '@/app/components/page/page';
+import { RizuTab, RizuTabList } from '@/app/components/page/tab';
 import { RizuSong, RizuSongList } from '@/app/components/song/song';
 import NotFound from '@/app/not-found';
 import { Listen, UserSnippet, UserStats } from '@rizu/shared';
+import React from 'react';
+import { UserTabs } from './tabs';
 
 export default async function Page({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
 
+  const user = await getUserInfo(username);
+  if (!user.id) {
+    return <NotFound />
+  }
+
+  return (
+    <UserPage user={user}>
+      <Recents username={user.slug} />
+      <RizuComments type="user" id={user.id} />
+    </UserPage>
+  )
+}
+
+export async function getUserInfo(username: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/${username}`);
 
   if (!res.ok) {
-    return <NotFound />
+    return {
+      id: '',
+      username: '',
+      slug: '',
+      born: ''
+    };
   }
 
   const user: UserSnippet = await res.json();
 
+  return user;
+}
+
+export async function UserPage({ user, children }: { user: UserSnippet, children: React.ReactNode }) {
   const join = new Date(user.born).toLocaleDateString('en-GB', {
     year: 'numeric',
     month: 'short',
@@ -42,9 +68,9 @@ export default async function Page({ params }: { params: Promise<{ username: str
         <RizuPageRight>
           <RizuPageTopInset>
             <RizuPageTopInsetTitle>{user.username}</RizuPageTopInsetTitle>
+            <UserTabs user={user} />
           </RizuPageTopInset>
-          <Recents username={user.slug} />
-          <RizuComments type="user" id={user.id} />
+          {children}
         </RizuPageRight>
       </RizuPageColumns>
     </>
