@@ -137,3 +137,9 @@
     text-decoration: underline;
   }
 }
+
+
+.tree {
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+}

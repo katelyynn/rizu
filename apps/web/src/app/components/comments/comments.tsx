@@ -112,7 +112,7 @@ export function RizuComments({
       {user && (
         <RizuCommentForm author={user} text={text} setText={setText} loading={loading} onSubmit={submitComment} placeholder={`leave a comment...`} />
       )}
-      <div className={styles.children}>
+      <div className={`${styles.children} ${styles.tree}`}>
         {nested.map(comment => (
           <RizuComment key={comment.id} comment={comment} user={user} type={type} id={id} onReply={submitComment} />
         ))}
