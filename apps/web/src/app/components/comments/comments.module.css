@@ -29,6 +29,7 @@
   max-height: 150px;
 
   &::placeholder {
+    font-style: italic;
     color: var(--placeholder) !important;
     opacity: unset !important;
   }
