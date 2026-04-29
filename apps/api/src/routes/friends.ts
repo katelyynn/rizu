@@ -207,11 +207,11 @@ friendRoutes.get('/list/:slug', async (c) => {
 
   const latestListens = db
     .select({
-      user: listens.user,
-      listen: sql<string>`MAX(${listens.id})`.as('latest_listen_id')
+      userId: listens.user,
+      listenId: sql<string>`MAX(${listens.id})`.as('latest_listen_id')
     })
     .from(listens)
-    .where(sql`${listens.user} IN (${sql.join(friendIds.map(id => `'${id}'`))})`)
+    .where(sql`${listens.user} IN (${sql.join(friendIds.map(id => sql`${id}`), sql`, `)})`)
     .groupBy(listens.user)
     .as('latest_listens');
 
@@ -230,10 +230,10 @@ friendRoutes.get('/list/:slug', async (c) => {
     })
     .from(friendships)
     .innerJoin(users, eq(friendships.friend, users.id))
-    .leftJoin(latestListens, eq(users.id, latestListens.user))
-    .leftJoin(listens, eq(listens.id, latestListens.listen))
+    .leftJoin(latestListens, eq(latestListens.userId, users.id))
+    .leftJoin(listens, sql`${listens.id} = ${latestListens.listenId} AND ${listens.user} = ${latestListens.userId}`)
     .leftJoin(songs, eq(listens.song, songs.id))
-    .leftJoin(artists, eq(songs.artist, songs.artist))
+    .leftJoin(artists, eq(songs.artist, artists.id))
     .leftJoin(albums, eq(listens.album, albums.id))
     .where(eq(friendships.user, user[0].id))
     .orderBy(sql`CASE WHEN ${listens.id} IS NULL THEN 1 ELSE 0 END, ${listens.played} DESC`);

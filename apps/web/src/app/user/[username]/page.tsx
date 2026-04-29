@@ -10,6 +10,7 @@ import NotFound from '@/app/not-found';
 import { Friend, Listen, UserSnippet, UserStats } from '@rizu/shared';
 import React from 'react';
 import { UserTabs } from './tabs';
+import { RizuUser, RizuUserList } from '@/app/components/user/user';
 
 export default async function Page({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -128,9 +129,9 @@ async function Friends({ username }: { username: string }) {
   return (
     <section>
       <h4>Friends</h4>
-      {friends.map((friend: Friend) => (
-        <p key={friend.friend.id}>{friend.friend.username}</p>
-      ))}
+      <RizuUserList>
+        {friends.map((friend: Friend) => <RizuUser key={friend.friend.id} friend={friend} />)}
+      </RizuUserList>
     </section>
   )
 }
