@@ -168,11 +168,11 @@ friendRoutes.get('/outgoing', async (c) => {
   return c.json(requests);
 });
 
-friendRoutes.get('/list', async (c) => {
-  const userId = await getAuthUser(c);
-  if (!userId) {
-    return c.json({ error: 'unauthorised' }, 401);
-  }
+friendRoutes.get('/list/:slug', async (c) => {
+  const slug = c.req.param('slug');
+
+  const user = await db.select({ id: users.id }).from(users).where(eq(users.slug, slug)).limit(1);
+  if (user.length == 0) return c.json({ error: 'user not found' }, 404);
 
   const latestListens = db
     .select({
@@ -198,7 +198,7 @@ friendRoutes.get('/list', async (c) => {
     .leftJoin(songs, eq(listens.song, songs.id))
     .leftJoin(artists, eq(songs.artist, songs.artist))
     .leftJoin(albums, eq(listens.album, albums.id))
-    .where(eq(friendships.user, userId))
+    .where(eq(friendships.user, user[0].id))
     .orderBy(desc(listens.played));
 
   return c.json(friends);

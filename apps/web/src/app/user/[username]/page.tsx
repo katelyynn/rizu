@@ -96,8 +96,27 @@ export async function Recents({ username }: { username: string }) {
   )
 }
 
-export async function Stats({ username }: { username: string }) {
+async function Stats({ username }: { username: string }) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/${username}/stats`);
+
+  if (!res.ok) {
+    return <NotFound />
+  }
+
+  const stats: UserStats = await res.json();
+
+  return (
+    <>
+      <RizuInfo label="Listens">{stats.listens}</RizuInfo>
+      <RizuInfo label="Artists">{stats.artists}</RizuInfo>
+      <RizuInfo label="Albums">{stats.albums}</RizuInfo>
+      <RizuInfo label="Songs">{stats.songs}</RizuInfo>
+    </>
+  )
+}
+
+async function Friends({ username }: { username: string }) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/${username}/friends`);
 
   if (!res.ok) {
     return <NotFound />
