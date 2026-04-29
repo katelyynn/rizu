@@ -104,8 +104,8 @@ export function useFriendStatus(slug: string) {
 
   let buttonText = 'Add Friend';
   switch (status) {
-    case 'outgoing': buttonText = 'Sent'; break;
-    case 'incoming': buttonText = 'Accept'; break;
+    case 'outgoing': buttonText = 'Sent Request'; break;
+    case 'incoming': buttonText = 'Accept Friend'; break;
     case 'friends': buttonText = 'Friends'; break;
     default: break;
   }

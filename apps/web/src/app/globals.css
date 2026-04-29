@@ -138,3 +138,16 @@ h4 {
 ::selection {
   background: #d1163238;
 }
+
+
+.famfamfam-silk {
+  background-image: url('/silk.png') !important;
+  background-size: 512px 512px !important;
+  background-repeat: no-repeat !important;
+}
+
+.famfamfam-silk.status_add {
+  background-position: -127px -496px;
+  width: 16px;
+  height: 16px;
+}

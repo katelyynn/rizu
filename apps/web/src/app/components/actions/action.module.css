@@ -6,9 +6,9 @@
 .action {
   appearance: none;
   border: none;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #ddd;
 
-  padding: 4px 10px;
+  padding: 5px 10px;
 
   color: var(--link);
 
@@ -20,7 +20,10 @@
   cursor: pointer;
 
   &:hover {
-    background-color: #e6485a21;
-    text-decoration: none;
+    text-decoration: underline;
   }
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }

@@ -16,6 +16,7 @@
 .big {
   width: var(--big-avatar-size);
   height: var(--big-avatar-size);
+  border-radius: 6px;
 }
 
 .image {
