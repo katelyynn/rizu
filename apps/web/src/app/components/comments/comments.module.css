@@ -52,8 +52,8 @@
 .bubble {
   --bg: #fff7f8;
   --bg-bottom: #f1dadb;
-  --shadow-top: #dac6c9;
-  --shadow: #c2a0a5;
+  --shadow-top: #eedbde;
+  --shadow: #bd9298;
   --placeholder: #35161a77;
 
   background: linear-gradient(180deg, var(--bg) 60%, var(--bg-bottom));
