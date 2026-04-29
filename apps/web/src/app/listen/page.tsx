@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import RizuInput from '../components/input/input';
+import RizuButton from '../components/button/button';
 
 export default function Page() {
   const [ songName, setSongName ] = useState('');
@@ -62,9 +63,9 @@ export default function Page() {
         <RizuInput label="Album" type="text" value={albumName} onChange={(e) => setAlbumName(e.target.value)} />
         <RizuInput label="Album artist" type="text" value={albumArtistName} onChange={(e) => setAlbumArtistName(e.target.value)} />
         <RizuInput label="Duration" type="number" value={duration} onChange={(e) => setDuration(Number(e.target.value))} />
-        <button type="submit" disabled={loading || !songName || !artistName}>
+        <RizuButton type="submit" disabled={loading || !songName || !artistName}>
           {loading ? 'sending...' : 'submit'}
-        </button>
+        </RizuButton>
         {error && (
           <div>
             {error}

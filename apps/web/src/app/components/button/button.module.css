@@ -1,0 +1,30 @@
+.button {
+  appearance: none;
+  border: 1px solid;
+  border-color: #881c29 #881c29 #24080b;
+  font: inherit;
+  font-size: 11px;
+
+  padding: 4px 4px;
+  border-radius: 4px;
+
+  background: #d34c5b;
+  box-shadow: 0 1px 0 0 inset #fa9ba6, 0 1px 0 1px #520e1523;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 1px 0 #5e121b;
+
+  &:hover {
+    background: #db5c6b;
+  }
+
+  &:not([disabled="true"]) {
+    cursor: pointer;
+  }
+
+  &:active {
+    background: #c54554;
+    box-shadow: 0 1px 0 0 inset #9b323e;
+    translate: 0 1px;
+  }
+}
