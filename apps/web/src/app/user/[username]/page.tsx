@@ -27,9 +27,6 @@ export default async function Page({ params }: { params: Promise<{ username: str
 
   return (
     <>
-      <RizuPageTopInset>
-        <RizuPageTopInsetTitle>{user.username}</RizuPageTopInsetTitle>
-      </RizuPageTopInset>
       <RizuPageColumns>
         <RizuPageLeft>
           <RizuAvatar src={user.avatar} alt={user.username} big />
@@ -43,6 +40,9 @@ export default async function Page({ params }: { params: Promise<{ username: str
           </section>
         </RizuPageLeft>
         <RizuPageRight>
+          <RizuPageTopInset>
+            <RizuPageTopInsetTitle>{user.username}</RizuPageTopInsetTitle>
+          </RizuPageTopInset>
           <Recents username={user.slug} />
           <RizuComments type="user" id={user.id} />
         </RizuPageRight>

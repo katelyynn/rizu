@@ -16,8 +16,6 @@
 .big {
   width: var(--big-avatar-size);
   height: var(--big-avatar-size);
-
-  margin-top: -60px;
 }
 
 .image {

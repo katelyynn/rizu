@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { SettingsTabs } from './components/tab/tab';
 import RizuInput from '../components/input/input';
 import { useAuth } from '../components/auth/auth_context';
+import RizuButton from '../components/button/button';
 
 export default function Page() {
   return (
@@ -51,7 +52,7 @@ function AvatarUploader() {
       <form onSubmit={handleAvatar}>
         {error && <p>{error}</p>}
         <RizuInput label="Avatar" type="text" value={avatar} onChange={(e) => setAvatar(e.target.value)} required />
-        <button type="submit">submit</button>
+        <RizuButton type="submit">Save</RizuButton>
       </form>
     </>
   )

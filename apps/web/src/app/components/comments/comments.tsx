@@ -8,6 +8,7 @@ import { RizuAvatar } from '../avatar/avatar';
 import Link from 'next/link';
 import { RizuMarkdown } from '../markdown/markdown';
 import { DateTime } from 'luxon';
+import RizuButton from '../button/button';
 
 interface RizuCommentsProps {
   type: string,
@@ -153,7 +154,7 @@ function RizuCommentForm({
           <textarea className={styles.textarea} value={text} onChange={e => setText(e.target.value)} disabled={loading} placeholder={placeholder} />
         </div>
         <div className={styles.bottom}>
-          <button className={styles.action} disabled={loading || !text.trim()}>Post</button>
+          <RizuButton className={styles.action} disabled={loading || !text.trim()}>Post</RizuButton>
           {cancel && <button className={styles.action} onClick={cancel}>Cancel</button>}
         </div>
       </div>

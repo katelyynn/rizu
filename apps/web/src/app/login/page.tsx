@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useAuth } from '../components/auth/auth_context';
 import RizuInput from '../components/input/input';
+import RizuButton from '../components/button/button';
+import { RizuPageRight, RizuPageTitle } from '../components/page/page';
 
 export default function Page() {
   const [ email, setEmail ] = useState('');
@@ -41,13 +43,14 @@ export default function Page() {
   }
 
   return (
-    <div>
+    <RizuPageRight>
+      <RizuPageTitle icon="door_in" title="Login" />
       <form onSubmit={handleLogin}>
         {error && <p>{error}</p>}
         <RizuInput label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <RizuInput label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button type="submit">submit</button>
+        <RizuButton type="submit">Login</RizuButton>
       </form>
-    </div>
+    </RizuPageRight>
   )
 }

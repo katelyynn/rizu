@@ -1,10 +1,11 @@
+import { RizuPageTitle } from '@/app/components/page/page';
 import Link from 'next/link';
 
 export function SettingsTabs() {
   return (
-    <div>
-      <h1>settings</h1>
+    <>
+      <RizuPageTitle icon="cog" title="Settings" />
       <p><Link href="/settings">profile</Link></p>
-    </div>
+    </>
   )
 }

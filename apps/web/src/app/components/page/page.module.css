@@ -1,12 +1,16 @@
 .topInset {
   padding: 30px 10px 30px calc(10px + var(--big-avatar-size) + var(--page-column-gap));
-  margin: -10px -10px 0;
+  margin: -10px -10px 0 calc(-1 * (10px + var(--big-avatar-size) + var(--page-column-gap)));
   background-color: #d64f5f0e;
+  border-bottom: 1px solid #49131a18;
 }
 
 .columns {
   display: flex;
   gap: var(--page-column-gap);
+  padding: 10px;
+  margin: -10px;
+  overflow: hidden;
 }
 
 .left {
@@ -16,6 +20,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  z-index: 2;
 }
 
 .right {
@@ -24,4 +30,32 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+
+  cursor: default;
+}
+
+.titleIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  border: 1px solid #ddd;
+}
+
+.titleIconImage {
+  width: 16px;
+  height: 16px;
+}
+
+.titleHead {
+  font-size: 15px;
+  line-height: 15px;
 }

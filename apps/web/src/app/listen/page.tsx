@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import RizuInput from '../components/input/input';
 import RizuButton from '../components/button/button';
+import { RizuPageRight, RizuPageTitle } from '../components/page/page';
 
 export default function Page() {
   const [ songName, setSongName ] = useState('');
@@ -55,8 +56,8 @@ export default function Page() {
   }
 
   return (
-    <>
-      <h1>create listen</h1>
+    <RizuPageRight>
+      <RizuPageTitle icon="pencil_add" title="Listen" />
       <form onSubmit={handleListen}>
         <RizuInput label="Song" type="text" value={songName} onChange={(e) => setSongName(e.target.value)} required />
         <RizuInput label="Artist" type="text" value={artistName} onChange={(e) => setArtistName(e.target.value)} required />
@@ -72,6 +73,6 @@ export default function Page() {
           </div>
         )}
       </form>
-    </>
+    </RizuPageRight>
   )
 }

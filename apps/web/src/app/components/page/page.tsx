@@ -48,3 +48,24 @@ export function RizuPageRight({ children }: { children: React.ReactNode }) {
     </div>
   )
 }
+
+interface RizuPageTitleProps {
+  icon: string,
+  title: string
+}
+
+export function RizuPageTitle({
+  icon,
+  title
+}: RizuPageTitleProps) {
+  return (
+    <div className={styles.title}>
+      <div className={styles.titleIcon}>
+        <div className={`${styles.titleIconImage} famfamfam-silk ${icon}`} />
+      </div>
+      <div className={styles.titleInfo}>
+        <h1 className={styles.titleHead}>{title}</h1>
+      </div>
+    </div>
+  )
+}
