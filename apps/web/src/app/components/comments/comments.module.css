@@ -4,7 +4,7 @@
 
 .comment {
   display: flex;
-  gap: 10px;
+  gap: 15px;
 }
 
 .side {
@@ -42,11 +42,12 @@
 }
 
 .avatar {
-  --w: 50px;
+  --w: 36px;
 
   width: var(--w);
   height: var(--w);
-  border-radius: 6px;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px 1px #27272718;
 }
 
 .bubble {
@@ -115,9 +116,13 @@
 .children {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 
-  margin-top: 10px;
+  margin-top: 5px;
+
+  &:not(.tree) {
+    margin-left: -20px;
+  }
 }
 
 .bottom {
@@ -144,5 +149,7 @@
 
 .tree {
   padding-top: 10px;
+  margin-top: 10px;
   border-top: 1px solid #ddd;
+  gap: 10px;
 }
