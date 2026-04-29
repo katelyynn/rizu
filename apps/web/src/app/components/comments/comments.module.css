@@ -47,7 +47,6 @@
   width: var(--w);
   height: var(--w);
   border-radius: 3px;
-  box-shadow: 0 1px 2px 1px #27272718;
 }
 
 .bubble {

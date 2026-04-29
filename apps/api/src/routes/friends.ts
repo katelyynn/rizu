@@ -185,7 +185,12 @@ friendRoutes.get('/list/:slug', async (c) => {
 
   const friends = await db
     .select({
-      friend: users,
+      friend: {
+        id: users.id,
+        username: users.username,
+        slug: users.slug,
+        avatar: users.avatar
+      },
       listen: listens,
       song: songs,
       artist: artists,

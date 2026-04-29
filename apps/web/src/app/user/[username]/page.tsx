@@ -63,6 +63,7 @@ export async function UserPage({ user, children }: { user: UserSnippet, children
               {join}
             </RizuInfo>
             <Stats username={user.slug} />
+            <Friends username={user.slug} />
           </section>
         </RizuPageLeft>
         <RizuPageRight>
@@ -116,7 +117,9 @@ async function Stats({ username }: { username: string }) {
 }
 
 async function Friends({ username }: { username: string }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/${username}/friends`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/friends/list/${username}`);
+
+  return <NotFound />
 
   if (!res.ok) {
     return <NotFound />
