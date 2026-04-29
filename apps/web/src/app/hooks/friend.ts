@@ -82,8 +82,6 @@ export function useFriendStatus(slug: string) {
 
           break;
         case 'friends':
-          if (!requestId) break;
-
           res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/friends/remove/${slug}`, {
             method: 'POST',
             credentials: 'include'

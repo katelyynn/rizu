@@ -25,7 +25,7 @@ export function RizuProfileActions({ slug }: { slug: string }) {
   const { user } = useAuth();
   const { status, loading, handleAction, buttonText, isActionable } = useFriendStatus(slug);
 
-  let statusIcon = 'status';
+  let statusIcon = 'status_online';
 
   switch (status) {
     case 'incoming':

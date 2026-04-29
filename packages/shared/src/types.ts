@@ -81,3 +81,7 @@ export interface Comment {
   author: Author,
   children?: Comment[]
 }
+
+export interface Friend extends Listen {
+  friend: Author
+}

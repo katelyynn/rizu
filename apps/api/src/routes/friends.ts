@@ -58,12 +58,31 @@ friendRoutes.post('/accept/:id', async (c) => {
 
   if (request.receiver != userId) return notFound;
 
-  await db.insert(friendships).values([
-    { user: userId, friend: request.sender },
-    { user: request.sender, friend: userId }
-  ]);
+  const senderId = request.sender;
 
-  await db.delete(friendRequests).where(eq(friendRequests.id, request.id));
+  const alreadyFriends = await db.select().from(friendships).where(
+    and(
+      eq(friendships.user, userId),
+      eq(friendships.friend, senderId)
+    )
+  ).limit(1);
+
+  if (alreadyFriends.length > 0) {
+    await db.delete(friendRequests).where(eq(friendRequests.id, id));
+    return notFound;
+  }
+
+  await db.insert(friendships).values([
+    { user: userId, friend: senderId },
+    { user: senderId, friend: userId }
+  ]).onConflictDoNothing();
+
+  await db.delete(friendRequests).where(
+    and(
+      eq(friendRequests.receiver, userId),
+      eq(friendRequests.sender, senderId)
+    )
+  );
 
   return c.json({ message: 'accepted friend request' }, 200);
 });
@@ -174,12 +193,25 @@ friendRoutes.get('/list/:slug', async (c) => {
   const user = await db.select({ id: users.id }).from(users).where(eq(users.slug, slug)).limit(1);
   if (user.length == 0) return c.json({ error: 'user not found' }, 404);
 
+  const userId = user[0].id;
+
+  const friendsList = await db.select({ id: friendships.friend })
+    .from(friendships)
+    .where(eq(friendships.user, userId));
+
+  const friendIds = friendsList.map(f => f.id);
+
+  if (friendIds.length == 0) {
+    return c.json([]);
+  }
+
   const latestListens = db
     .select({
       user: listens.user,
       listen: sql<string>`MAX(${listens.id})`.as('latest_listen_id')
     })
     .from(listens)
+    .where(sql`${listens.user} IN (${sql.join(friendIds.map(id => `'${id}'`))})`)
     .groupBy(listens.user)
     .as('latest_listens');
 
@@ -204,7 +236,7 @@ friendRoutes.get('/list/:slug', async (c) => {
     .leftJoin(artists, eq(songs.artist, songs.artist))
     .leftJoin(albums, eq(listens.album, albums.id))
     .where(eq(friendships.user, user[0].id))
-    .orderBy(desc(listens.played));
+    .orderBy(sql`CASE WHEN ${listens.id} IS NULL THEN 1 ELSE 0 END, ${listens.played} DESC`);
 
   return c.json(friends);
 });

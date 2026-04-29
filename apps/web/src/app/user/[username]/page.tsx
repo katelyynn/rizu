@@ -7,7 +7,7 @@ import { RizuPageColumns, RizuPageLeft, RizuPageRight, RizuPageTopInset, RizuPag
 import { RizuTab, RizuTabList } from '@/app/components/page/tab';
 import { RizuSong, RizuSongList } from '@/app/components/song/song';
 import NotFound from '@/app/not-found';
-import { Listen, UserSnippet, UserStats } from '@rizu/shared';
+import { Friend, Listen, UserSnippet, UserStats } from '@rizu/shared';
 import React from 'react';
 import { UserTabs } from './tabs';
 
@@ -63,8 +63,8 @@ export async function UserPage({ user, children }: { user: UserSnippet, children
               {join}
             </RizuInfo>
             <Stats username={user.slug} />
-            <Friends username={user.slug} />
           </section>
+          <Friends username={user.slug} />
         </RizuPageLeft>
         <RizuPageRight>
           <RizuPageTopInset>
@@ -119,20 +119,18 @@ async function Stats({ username }: { username: string }) {
 async function Friends({ username }: { username: string }) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/friends/list/${username}`);
 
-  return <NotFound />
-
   if (!res.ok) {
     return <NotFound />
   }
 
-  const stats: UserStats = await res.json();
+  const friends: Friend[] = await res.json();
 
   return (
-    <>
-      <RizuInfo label="Listens">{stats.listens}</RizuInfo>
-      <RizuInfo label="Artists">{stats.artists}</RizuInfo>
-      <RizuInfo label="Albums">{stats.albums}</RizuInfo>
-      <RizuInfo label="Songs">{stats.songs}</RizuInfo>
-    </>
+    <section>
+      <h4>Friends</h4>
+      {friends.map((friend: Friend) => (
+        <p key={friend.friend.id}>{friend.friend.username}</p>
+      ))}
+    </section>
   )
 }
