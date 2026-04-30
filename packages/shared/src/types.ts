@@ -103,5 +103,10 @@ export interface Activity {
 
   count: number,
   artists: string[],
-  song?: SongSnippet
+  song?: {
+    id: string,
+    name: string,
+    artist: ArtistSnippet,
+    album?: AlbumSnippet
+  }
 }

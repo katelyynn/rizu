@@ -28,14 +28,16 @@ export const friendRequests = pgTable('friend_requests', {
 export const artists = pgTable('artists', {
   id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull().unique(),
-  mbid: text('mbid')
+  mbid: text('mbid'),
+  avatar: text('avatar')
 });
 
 export const albums = pgTable('albums', {
   id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull().unique(),
   artist: text('artist').references(() => artists.id),
-  mbid: text('mbid')
+  mbid: text('mbid'),
+  avatar: text('avatar')
 });
 
 export const songs = pgTable('songs', {

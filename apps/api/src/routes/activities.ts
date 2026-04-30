@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { activities, comments, songs, users } from '../db/schema';
+import { activities, albums, artists, comments, songs, users } from '../db/schema';
 import { db } from '../db';
 import { desc, eq, inArray } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';
@@ -99,12 +99,43 @@ activitiesRoutes.get('/:slug', async (c) => {
       .select({
         id: songs.id,
         name: songs.name,
-        artist: songs.artist
+        artist: songs.artist,
+        album: songs.album
       })
       .from(songs)
       .where(inArray(songs.id, listenTargets));
 
-    songMap = Object.fromEntries(songData.map(s => [ s.id, s ]));
+    const artistIds = songData.map(s => s.artist).filter(Boolean);
+    let artistMap: Record<string, any> = {};
+
+    if (artistIds.length > 0) {
+      const artistData = await db
+        .select({ id: artists.id, name: artists.name })
+        .from(artists)
+        .where(inArray(artists.id, artistIds));
+      artistMap = Object.fromEntries(artistData.map(a => [ a.id, a ]));
+    }
+
+    const albumIds = songData.map(s => s.album).filter(Boolean);
+    let albumMap: Record<string, any> = {};
+
+    if (albumIds.length > 0) {
+      const albumData = await db
+        .select({ id: albums.id, name: albums.name, avatar: albums.avatar })
+        .from(albums)
+        .where(inArray(artists.id, artistIds));
+      albumMap = Object.fromEntries(albumData.map(a => [ a.id, a ]));
+    }
+
+    songMap = Object.fromEntries(songData.map(song => [
+      song.id,
+      {
+        id: song.id,
+        name: song.name,
+        artist: artistMap[song.artist] || null,
+        album: song.album ? albumMap[song.album] || null : null
+      }
+    ]));
   }
 
   const formatted = userActivity.map(activity => {
