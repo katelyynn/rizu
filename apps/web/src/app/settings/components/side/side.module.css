@@ -5,10 +5,19 @@
 
 .left {
   width: 200px;
+  flex-shrink: 0;
 
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.right {
+  flex: 1;
+
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
 .head {

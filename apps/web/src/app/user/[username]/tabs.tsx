@@ -8,7 +8,7 @@ export function UserTabs({ user }: { user: UserSnippet }) {
   const pathname = usePathname();
 
   return (
-    <RizuTabList>
+    <RizuTabList standalone={false}>
       <RizuTab href={`/user/${user.slug}`} pathname={pathname}>
         Wall
       </RizuTab>

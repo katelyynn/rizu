@@ -5,14 +5,16 @@ import styles from "./tab.module.css";
 import Link from 'next/link';
 
 interface RizuTabListProps {
+  standalone?: boolean,
   children: React.ReactNode
 }
 
 export function RizuTabList({
+  standalone = true,
   children
 }: RizuTabListProps) {
   return (
-    <nav className={styles.list}>
+    <nav className={`${styles.list} ${standalone ? styles.standalone : ''}`}>
       {children}
     </nav>
   )

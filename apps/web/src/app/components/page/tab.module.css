@@ -1,9 +1,19 @@
 .list {
-  margin-top: 32px;
-  margin-bottom: -31px;
-
   display: flex;
   gap: 4px;
+
+  &:not(.standalone) {
+    margin-top: 32px;
+    margin-bottom: -31px;
+  }
+
+  &.standalone {
+    border-bottom: 1px solid #ccc;
+
+    .tab {
+      margin-bottom: -1px;
+    }
+  }
 }
 
 .tab {
@@ -11,6 +21,7 @@
   border: 1px solid #ccc;
   border-bottom-color: transparent !important;
   font-weight: bold;
+  font-size: 12px;
 
   &:not(.active) {
     background: #ff3e540e;
