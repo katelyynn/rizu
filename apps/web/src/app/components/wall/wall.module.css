@@ -143,8 +143,16 @@
 .name {
   font-size: 12px;
   color: #000;
+
+  &:hover {
+    color: var(--link);
+  }
 }
 .artist {
   font-size: 11px;
   color: #444;
+
+  &:hover {
+    color: var(--link);
+  }
 }
