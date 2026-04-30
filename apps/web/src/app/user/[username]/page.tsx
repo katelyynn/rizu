@@ -2,7 +2,7 @@ import { RizuAbout } from '@/app/components/about/about';
 import { RizuProfileActions } from '@/app/components/actions/actions';
 import { RizuAvatar } from '@/app/components/avatar/avatar';
 import { RizuComments } from '@/app/components/comments/comments';
-import { RizuInfo } from '@/app/components/info/info';
+import { RizuInfo, RizuInfoList, RizuStatsBox } from '@/app/components/info/info';
 import { RizuPageColumns, RizuPageLeft, RizuPageRight, RizuPageTopInset, RizuPageTopInsetTitle } from '@/app/components/page/page';
 import { RizuTab, RizuTabList } from '@/app/components/page/tab';
 import { RizuSong, RizuSongList } from '@/app/components/song/song';
@@ -39,7 +39,11 @@ export async function getUserInfo(username: string) {
       id: '',
       username: '',
       slug: '',
-      born: ''
+      born: '',
+      pronouns: {
+        personal: '',
+        possessive: ''
+      }
     };
   }
 
@@ -62,12 +66,15 @@ export async function UserPage({ user, children }: { user: UserSnippet, children
           <RizuAvatar src={user.avatar} alt={user.username} big />
           <RizuProfileActions slug={user.slug} />
           <RizuAbout text={user.about} placeholder={`${user.username} is keeping quiet for now`} />
-          <section>
+          <RizuInfoList>
             <RizuInfo label="Joined">
               {join}
             </RizuInfo>
+            <RizuInfo label="Pronouns">
+              {user.pronouns.personal}/{user.pronouns.possessive}
+            </RizuInfo>
             <Stats username={user.slug} />
-          </section>
+          </RizuInfoList>
           <Friends username={user.slug} />
         </RizuPageLeft>
         <RizuPageRight>
@@ -111,12 +118,18 @@ async function Stats({ username }: { username: string }) {
   const stats: UserStats = await res.json();
 
   return (
-    <>
-      <RizuInfo label="Listens">{stats.listens}</RizuInfo>
-      <RizuInfo label="Artists">{stats.artists}</RizuInfo>
-      <RizuInfo label="Albums">{stats.albums}</RizuInfo>
-      <RizuInfo label="Songs">{stats.songs}</RizuInfo>
-    </>
+    <RizuInfo label="Stats">
+      <RizuStatsBox>
+        <RizuInfoList horizontal>
+          <RizuInfo label="Listens">{stats.listens}</RizuInfo>
+          <RizuInfo label="Artists">{stats.artists}</RizuInfo>
+        </RizuInfoList>
+        <RizuInfoList horizontal>
+          <RizuInfo label="Albums">{stats.albums}</RizuInfo>
+          <RizuInfo label="Songs">{stats.songs}</RizuInfo>
+        </RizuInfoList>
+      </RizuStatsBox>
+    </RizuInfo>
   )
 }
 

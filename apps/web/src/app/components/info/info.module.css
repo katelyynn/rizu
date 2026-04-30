@@ -1,3 +1,28 @@
 .content {
   font-size: 12px;
 }
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.horizontal {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px 4px;
+}
+
+.statBox {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 4px 6px;
+  margin-top: 2px;
+
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
