@@ -74,7 +74,7 @@ commentRoutes.get('/:type/:id', async (c) => {
         id: users.id,
         username: users.username,
         slug: users.slug,
-        avatar: users.slug,
+        avatar: users.avatar,
         personalPronoun: users.personalPronoun,
         possessivePronoun: users.possessivePronoun
       }
