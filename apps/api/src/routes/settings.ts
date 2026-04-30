@@ -8,7 +8,7 @@ import { getAuthUser } from './auth';
 
 export const settingsRoutes = new Hono();
 
-settingsRoutes.patch('/avatar', async (c) => {
+settingsRoutes.patch('/profile/avatar', async (c) => {
   try {
     const userId = await getAuthUser(c);
     if (!userId) {
@@ -24,6 +24,30 @@ settingsRoutes.patch('/avatar', async (c) => {
     await db.update(users).set({ avatar }).where(eq(users.id, userId));
 
     return c.json({ message: 'updated avatar', avatar });
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+settingsRoutes.patch('/profile/pronouns', async (c) => {
+  try {
+    const userId = await getAuthUser(c);
+    if (!userId) {
+      return c.json({ error: 'invalid token' }, 401);
+    }
+
+    const { personal, possessive } = await c.req.json();
+
+    if (!personal || !possessive) {
+      return c.json({ error: 'missing required fields: personal, possessive' }, 400);
+    }
+
+    await db.update(users).set({
+      personalPronoun: personal,
+      possessivePronoun: possessive
+    }).where(eq(users.id, userId));
+
+    return c.json({ message: 'updated pronouns', pronouns: { personal, possessive } });
   } catch (error) {
     return c.json({ error: error.message }, 500);
   }

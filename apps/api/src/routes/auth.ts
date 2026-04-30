@@ -98,7 +98,11 @@ authRoutes.get('/me', async (c) => {
       id: users.id,
       username: users.username,
       slug: users.slug,
-      avatar: users.avatar
+      avatar: users.avatar,
+      pronouns: {
+        personal: users.personalPronoun,
+        possessive: users.possessivePronoun
+      }
     }).from(users).where(eq(users.id, userId)).limit(1);
 
     if (user.length == 0) {

@@ -9,6 +9,8 @@ export function RizuMarkdown({
   text
 }: RizuMarkdownProps) {
   return (
-    <Markdown skipHtml>{text}</Markdown>
+    <div className={styles.markdown}>
+      <Markdown skipHtml>{text}</Markdown>
+    </div>
   )
 }

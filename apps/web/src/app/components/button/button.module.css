@@ -20,7 +20,7 @@
     background: #db5c6b;
   }
 
-  &:not([disabled="true"]) {
+  &:not([disabled]) {
     cursor: pointer;
   }
 
@@ -28,5 +28,10 @@
     background: #c54554;
     box-shadow: 0 1px 0 0 inset #9b323e;
     translate: 0 1px;
+  }
+
+  &[disabled] {
+    pointer-events: none;
+    opacity: 0.7;
   }
 }

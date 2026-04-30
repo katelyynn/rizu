@@ -1,17 +1,18 @@
 'use client';
 
+import { Author } from '@rizu/shared';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface AuthContextType {
-  user: { id: string, username: string, slug: string, avatar?: string } | null,
-  setUser: (user: { id: string, username: string, slug: string } | null) => void,
+  user: Author | null,
+  setUser: (user: Author | null) => void,
   loading: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [ user, setUser ] = useState<{ id: string, username: string, slug: string, avatar?: string } | null>(null);
+  const [ user, setUser ] = useState<Author | null>(null);
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
