@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { db } from '../db';
-import { albums, artists, listens, songs } from '../db/schema';
-import { eq } from 'drizzle-orm';
+import { activities, albums, artists, listens, songs } from '../db/schema';
+import { and, eq, gte, sql } from 'drizzle-orm';
 import { getCookie } from 'hono/cookie';
 import { jwtVerify } from 'jose';
 
@@ -78,6 +78,41 @@ listenRoutes.post('/', async (c) => {
       duration,
       played: playedAt
     });
+
+    const timeLimit = new Date(Date.now() - 3 * (60 * 60 * 1000));
+
+    const recentListen = await db
+      .select({ id: activities.id })
+      .from(activities)
+      .where(
+        and(
+          eq(activities.user, userId),
+          eq(activities.type, 'listen'),
+          gte(activities.created, timeLimit)
+        )
+      ).limit(1);
+
+    if (recentListen.length > 0) {
+      // update recent activity
+      await db
+        .update(activities)
+        .set({
+          target: song.id,
+          count: sql`${activities.count} + 1`,
+          artists: sql`array_append(array_remove(${activities.artists}, ${artistName}), ${artistName})`,
+          created: new Date()
+        })
+        .where(eq(activities.id, recentListen[0].id));
+    } else {
+      // fresh activity
+      await db.insert(activities).values({
+        user: userId,
+        type: 'listen',
+        target: song.id,
+        count: 1,
+        artists: [ artistName ]
+      });
+    }
 
     return c.json({ message: 'added listen to journal', song: song.id }, 201);
   } catch (error) {

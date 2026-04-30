@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { activities, comments, users } from '../db/schema';
+import { activities, comments, songs, users } from '../db/schema';
 import { db } from '../db';
 import { desc, eq, inArray } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';
@@ -19,7 +19,9 @@ activitiesRoutes.get('/:slug', async (c) => {
       id: activities.id,
       type: activities.type,
       target: activities.target,
-      created: activities.created
+      created: activities.created,
+      count: activities.count,
+      artists: activities.artists
     })
     .from(activities)
     .where(eq(activities.user, userId))
@@ -85,16 +87,47 @@ activitiesRoutes.get('/:slug', async (c) => {
     );
   }
 
+  // listens
+  const listenTargets = userActivity
+    .filter(a => a.type == 'listen' && a.target)
+    .map(a => a.target!);
+
+  let songMap: Record<string, any> = {};
+
+  if (listenTargets.length > 0) {
+    const songData = await db
+      .select({
+        id: songs.id,
+        name: songs.name,
+        artist: songs.artist
+      })
+      .from(songs)
+      .where(inArray(songs.id, listenTargets));
+
+    songMap = Object.fromEntries(songData.map(s => [ s.id, s ]));
+  }
+
   const formatted = userActivity.map(activity => {
+    const base = {
+        ...activity,
+        user: user[0]
+      };
+
     if (activity.type == 'comment' && activity.target && commentMap[activity.target]) {
       return {
-        ...activity,
-        comment: commentMap[activity.target],
-        user: user[0]
+        ...base,
+        comment: commentMap[activity.target]
       };
     }
 
-    return activity;
+    if (activity.type == 'listen' && activity.target && songMap[activity.target]) {
+      return {
+        ...base,
+        song: songMap[activity.target]
+      };
+    }
+
+    return base;
   });
 
   return c.json(formatted);

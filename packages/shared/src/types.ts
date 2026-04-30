@@ -96,8 +96,12 @@ export interface Friend extends Listen {
 export interface Activity {
   id: string,
   user: Author,
-  type: 'comment',
+  type: 'comment' | 'listen',
   target: string,
   created: string,
-  comment?: CommentSnippet
+  comment?: CommentSnippet,
+
+  count: number,
+  artists: string[],
+  song?: SongSnippet
 }

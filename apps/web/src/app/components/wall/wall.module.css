@@ -38,6 +38,11 @@
   font-size: 12px;
 }
 
+.highlight {
+  color: var(--link);
+  font-style: normal;
+}
+
 .bubble {
   --bg: #fff7f8;
   --bg-bottom: #f1dadb;

@@ -74,5 +74,8 @@ export const activities = pgTable('activities', {
 
   target: text('target'),
   metadata: text('metadata'),
-  created: timestamp('created').defaultNow().notNull()
+  created: timestamp('created').defaultNow().notNull(),
+
+  count: integer('count').default(1).notNull(),
+  artists: text('artists').array().default([]).notNull()
 });
