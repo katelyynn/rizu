@@ -52,11 +52,16 @@ export function RizuActivity({
         <RizuAvatar className={styles.avatar} src={activity.user.avatar} alt={activity.user.username} />
         <div className={styles.info}>
           <p className={styles.headline}><Link href={`/user/${activity.user.slug}`}>{activity.user.username}</Link> listened to <i className={styles.highlight}>{activity.count > 1 ? `${activity.count} songs` : `${activity.count} song`}</i>:</p>
-          <div className={styles.song}>
-            <div className={styles.info}>
-              <Link className={styles.name} href={`/song/${activity.song.id}`}>{activity.song.name}</Link>
-              <Link className={styles.artist} href={`/artist/${activity.song.artist}`}>{activity.song.artist}</Link>
+          <div className={styles.songs}>
+            <div className={styles.song}>
+              <div className={styles.info}>
+                <Link className={styles.name} href={`/song/${activity.song.id}`}>{activity.song.name}</Link>
+                <Link className={styles.artist} href={`/artist/${activity.song.artist}`}>{activity.song.artist}</Link>
+              </div>
             </div>
+            {activity.count > 1 ? (
+              <div className={styles.songDuplicate} />
+            ) : ''}
           </div>
           <div className={styles.bottom}>
             <p className={styles.time}>{DateTime.fromISO(activity.created).toRelative({ style: 'short' })}</p>
