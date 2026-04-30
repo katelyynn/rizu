@@ -6,20 +6,24 @@ import { SettingsTabs } from '../components/tab/tab';
 import { RizuSettingLine } from '../components/side/side';
 import RizuInput from '@/app/components/input/input';
 import RizuButton from '@/app/components/button/button';
+import { RizuRadio } from '@/app/components/radio/radio';
 
 export default function Page() {
   return (
     <>
       <SettingsTabs />
-      <Pronouns />
+      <Privacy />
     </>
   )
 }
-function Pronouns() {
+function Privacy() {
   const { user } = useAuth();
   const [ personal, setPersonal ] = useState('');
   const [ possessive, setPossessive ] = useState('');
   const [ error, setError ] = useState('');
+
+  const [ presence, setPresence ] = useState('everyone');
+  const [ activity, setActivity ] = useState('everyone');
 
   const [ save, setSave ] = useState(0);
 
@@ -73,19 +77,42 @@ function Pronouns() {
 
   return (
     <>
-      <RizuSettingLine label="Pronouns" desc={`
-        Declare the most comfortable way of being referred to, displaying on your profile and used like so:
-        <br>
-        ${user.username} updated **${possessive}** profile
-        ${user.username} reached 10,000 listens, **${personal}** is now #1
-        `}>
-        <form onSubmit={handleSubmit}>
-          {error && <p>{error}</p>}
-          <RizuInput label="Personal" type="text" value={personal} onChange={(e) => setPersonal(e.target.value)} required />
-          <RizuInput label="Possessive" type="text" value={possessive} onChange={(e) => setPossessive(e.target.value)} required />
-          <RizuButton type="submit" disabled={isDefault}>Save</RizuButton>
-        </form>
-      </RizuSettingLine>
+      <form onSubmit={handleSubmit}>
+        {error && <p>{error}</p>}
+        <RizuSettingLine label="Visibility" desc={`
+          Choose how you want to be perceived and by who on the site.
+          `}>
+            <RizuRadio label="Show my presence status to" value={presence} onValueChange={setPresence} items={[
+              {
+                label: 'Everyone',
+                value: 'everyone'
+              },
+              {
+                label: 'Friends only',
+                value: 'friends'
+              },
+              {
+                label: 'Nobody',
+                value: 'none'
+              }
+            ]} />
+            <RizuRadio label="Show my recent activity to" value={activity} onValueChange={setActivity} items={[
+              {
+                label: 'Everyone',
+                value: 'everyone'
+              },
+              {
+                label: 'Friends only',
+                value: 'friends'
+              },
+              {
+                label: 'Nobody',
+                value: 'none'
+              }
+            ]} />
+        </RizuSettingLine>
+        <RizuButton type="submit" disabled={isDefault}>Save</RizuButton>
+      </form>
     </>
   )
 }
