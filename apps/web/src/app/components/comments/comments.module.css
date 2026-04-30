@@ -44,8 +44,8 @@
 .avatar {
   --w: 36px;
 
-  width: var(--w);
-  height: var(--w);
+  width: var(--w) !important;
+  height: var(--w) !important;
   border-radius: 3px;
 }
 
