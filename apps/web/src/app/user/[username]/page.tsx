@@ -7,10 +7,11 @@ import { RizuPageColumns, RizuPageLeft, RizuPageRight, RizuPageTopInset, RizuPag
 import { RizuTab, RizuTabList } from '@/app/components/page/tab';
 import { RizuSong, RizuSongList } from '@/app/components/song/song';
 import NotFound from '@/app/not-found';
-import { Friend, Listen, UserSnippet, UserStats } from '@rizu/shared';
+import { Activity, Friend, Listen, UserSnippet, UserStats } from '@rizu/shared';
 import React from 'react';
 import { UserTabs } from './tabs';
 import { RizuUser, RizuUserList } from '@/app/components/user/user';
+import { RizuActivity, RizuWall } from '@/app/components/wall/wall';
 
 export default async function Page({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -22,6 +23,7 @@ export default async function Page({ params }: { params: Promise<{ username: str
 
   return (
     <UserPage user={user}>
+      <Wall username={user.slug} />
       <Recents username={user.slug} />
       <RizuComments type="user" id={user.id} />
     </UserPage>
@@ -132,6 +134,25 @@ async function Friends({ username }: { username: string }) {
       <RizuUserList>
         {friends.map((friend: Friend) => <RizuUser key={friend.friend.id} friend={friend} />)}
       </RizuUserList>
+    </section>
+  )
+}
+
+async function Wall({ username }: { username: string }) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/activities/${username}`);
+
+  if (!res.ok) {
+    return <NotFound />
+  }
+
+  const activities: Activity[] = await res.json();
+
+  return (
+    <section>
+      <h3>Wall</h3>
+      <RizuWall>
+        {activities.map((activity: Activity) => <RizuActivity key={activity.id} activity={activity} />)}
+      </RizuWall>
     </section>
   )
 }

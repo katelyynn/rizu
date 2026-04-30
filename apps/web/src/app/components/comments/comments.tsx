@@ -170,7 +170,7 @@ interface RizuCommentProps {
   onReply: (content: string, parent: string) => void
 }
 
-function RizuComment({
+export function RizuComment({
   user,
   comment,
   type,

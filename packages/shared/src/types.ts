@@ -82,6 +82,22 @@ export interface Comment {
   children?: Comment[]
 }
 
+export interface CommentSnippet {
+  id: string,
+  content: string,
+  created: string,
+  location?: Author
+}
+
 export interface Friend extends Listen {
   friend: Author
+}
+
+export interface Activity {
+  id: string,
+  user: Author,
+  type: 'comment',
+  target: string,
+  created: string,
+  comment?: CommentSnippet
 }

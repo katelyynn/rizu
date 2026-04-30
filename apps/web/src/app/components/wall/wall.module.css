@@ -1,0 +1,75 @@
+.wall {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.activity {
+  display: flex;
+  gap: 10px;
+}
+
+.avatar {
+  --w: 36px;
+
+  width: var(--w);
+  height: var(--w);
+  border-radius: 3px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.headline {
+  font-size: 12px;
+}
+
+.bubble {
+  --bg: #fff7f8;
+  --bg-bottom: #f1dadb;
+  --shadow-top: #eedbde;
+  --shadow: #bd9298;
+  --placeholder: #35161a77;
+
+  background: linear-gradient(180deg, var(--bg) 60%, var(--bg-bottom));
+  text-shadow: 0 1px 0 0 #fce0e4;
+  padding: 3px 8px 5px;
+  border-radius: 4px;
+
+  max-width: 400px;
+  max-height: 150px;
+
+  width: fit-content;
+
+  margin: 6px 0 4px;
+
+  font-size: 12px;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+
+    top: 0;
+    left: -6px;
+    width: 0;
+    height: 0;
+    border: 5px solid var(--bg);
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  filter: drop-shadow(0 -1px 0 var(--shadow-top)) drop-shadow(0 1px 0 var(--shadow)) drop-shadow(1px 0 0 var(--shadow-top)) drop-shadow(-1px 0 0 var(--shadow-top)) drop-shadow(0 2px 0 #520e150e);
+}
+
+.time {
+  font-size: 11px;
+  color: #666;
+}

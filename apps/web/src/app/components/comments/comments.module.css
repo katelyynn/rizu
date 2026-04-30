@@ -89,7 +89,7 @@
     border-bottom-color: transparent;
   }
 
-  filter: drop-shadow(0 -1px 0 var(--shadow-top)) drop-shadow(0 1px 0 var(--shadow)) drop-shadow(1px 0 0 var(--shadow-top)) drop-shadow(-1px 0 0 var(--shadow-top)) drop-shadow(0 2px 0 #520e1517);
+  filter: drop-shadow(0 -1px 0 var(--shadow-top)) drop-shadow(0 1px 0 var(--shadow)) drop-shadow(1px 0 0 var(--shadow-top)) drop-shadow(-1px 0 0 var(--shadow-top)) drop-shadow(0 2px 0 #520e150e);
 }
 
 /*.ownBubble {
