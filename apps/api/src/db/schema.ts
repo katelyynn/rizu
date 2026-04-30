@@ -8,7 +8,9 @@ export const users = pgTable('users', {
   password: text('password').notNull(),
   born: timestamp('born').defaultNow().notNull(),
   about: text('about'),
-  avatar: text('avatar')
+  avatar: text('avatar'),
+  personalPronoun: text('personal_pronoun').default('they'),
+  possessivePronoun: text('possessive_pronoun').default('them')
 });
 
 export const friendships = pgTable('friendships', {
