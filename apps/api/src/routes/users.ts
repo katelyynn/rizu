@@ -14,7 +14,11 @@ userRoutes.get('/:slug', async (c) => {
     slug: users.slug,
     born: users.born,
     avatar: users.avatar,
-    about: users.about
+    about: users.about,
+    pronouns: {
+      personal: users.personalPronoun,
+      possessive: users.possessivePronoun
+    }
   }).from(users).where(eq(users.slug, slug)).limit(1);
 
   if (user.length == 0) {
@@ -81,7 +85,11 @@ userRoutes.get('/', async (c) => {
     id: users.id,
     username: users.username,
     slug: users.slug,
-    born: users.born
+    born: users.born,
+    pronouns: {
+      personal: users.personalPronoun,
+      possessive: users.possessivePronoun
+    }
   }).from(users);
 
   return c.json(allUsers);

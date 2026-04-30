@@ -28,7 +28,7 @@ export function RizuComments({
   const [ loading, setLoading ] = useState(false);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/comments/${type}/${id}${short ? '/short' : ''}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/comments/${type}/${id}${short ? '?limit=8' : ''}`)
       .then(res => res.json())
       .then(data => setComments(data))
       .catch(error => console.error(error));

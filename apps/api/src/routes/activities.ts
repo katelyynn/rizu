@@ -9,7 +9,19 @@ export const activitiesRoutes = new Hono();
 activitiesRoutes.get('/:slug', async (c) => {
   const slug = c.req.param('slug');
 
-  const user = await db.select({ id: users.id, username: users.username, slug: users.slug, avatar: users.avatar }).from(users).where(eq(users.slug, slug)).limit(1);
+  const user = await db
+    .select({
+      id: users.id,
+      username: users.username,
+      slug: users.slug,
+      avatar: users.avatar,
+      pronouns: {
+        personal: users.personalPronoun,
+        possessive: users.possessivePronoun
+      }
+    })
+    .from(users)
+    .where(eq(users.slug, slug)).limit(1);
   if (user.length == 0) return c.json({ error: 'user not found' }, 404);
 
   const userId = user[0].id;

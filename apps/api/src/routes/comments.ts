@@ -56,32 +56,8 @@ commentRoutes.post('/', async (c) => {
 commentRoutes.get('/:type/:id', async (c) => {
   const { type, id } = c.req.param();
 
-  const valid = [ 'user' ];
-  if (!valid.includes(type)) {
-    return c.json({ error: 'invalid type' }, 400);
-  }
-
-  const allComments = await db
-    .select({
-      id: comments.id,
-      content: comments.content,
-      created: comments.created,
-      parent: comments.parent,
-      author: users
-    })
-    .from(comments)
-    .innerJoin(users, eq(comments.author, users.id))
-    .where(and(
-      eq(comments.targetType, type),
-      eq(comments.targetId, id)
-    ))
-    .orderBy(desc(comments.created)).limit(50);
-
-  return c.json(allComments);
-});
-
-commentRoutes.get('/:type/:id/short', async (c) => {
-  const { type, id } = c.req.param();
+  let limit = Number(c.req.query('limit')) || 50;
+  if (limit > 50) limit = 50;
 
   const valid = [ 'user' ];
   if (!valid.includes(type)) {
@@ -94,7 +70,14 @@ commentRoutes.get('/:type/:id/short', async (c) => {
       content: comments.content,
       created: comments.created,
       parent: comments.parent,
-      author: users
+      author: {
+        id: users.id,
+        username: users.username,
+        slug: users.slug,
+        avatar: users.slug,
+        personalPronoun: users.personalPronoun,
+        possessivePronoun: users.possessivePronoun
+      }
     })
     .from(comments)
     .innerJoin(users, eq(comments.author, users.id))
@@ -102,7 +85,24 @@ commentRoutes.get('/:type/:id/short', async (c) => {
       eq(comments.targetType, type),
       eq(comments.targetId, id)
     ))
-    .orderBy(desc(comments.created)).limit(8);
+    .orderBy(desc(comments.created)).limit(limit);
 
-  return c.json(allComments);
+  const formatted = allComments.map(comment => ({
+    id: comment.id,
+    content: comment.content,
+    created: comment.created,
+    parent: comment.parent,
+    author: {
+      id: comment.author.id,
+      username: comment.author.username,
+      slug: comment.author.slug,
+      avatar: comment.author.slug,
+      pronouns: {
+        personal: comment.author.personalPronoun,
+        possessive: comment.author.possessivePronoun
+      }
+    }
+  }))
+
+  return c.json(formatted);
 });

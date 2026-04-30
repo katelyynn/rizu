@@ -4,14 +4,21 @@ export interface UserSnippet {
   slug: string,
   born: string,
   avatar?: string,
-  about?: string
+  about?: string,
+  pronouns: Pronouns
 }
 
 export interface Author {
   id: string,
   username: string,
   slug: string,
-  avatar?: string
+  avatar?: string,
+  pronouns: Pronouns
+}
+
+export interface Pronouns {
+  personal: string,
+  possessive: string
 }
 
 export interface UserStats {
