@@ -75,7 +75,7 @@ commentRoutes.get('/:type/:id', async (c) => {
       eq(comments.targetType, type),
       eq(comments.targetId, id)
     ))
-    .orderBy(desc(comments.created));
+    .orderBy(desc(comments.created)).limit(30);
 
   return c.json(allComments);
 });

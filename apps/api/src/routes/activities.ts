@@ -22,7 +22,6 @@ activitiesRoutes.get('/:slug', async (c) => {
       created: activities.created
     })
     .from(activities)
-    .innerJoin(users, eq(activities.user, users.id))
     .where(eq(activities.user, userId))
     .orderBy(desc(activities.created)).limit(20);
 
