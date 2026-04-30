@@ -22,8 +22,20 @@ function AvatarUploader() {
   const [ avatar, setAvatar ] = useState('');
   const [ error, setError ] = useState('');
 
+  const [ save, setSave ] = useState(0);
+
+  const initialData = useRef({
+    avatar: user?.avatar || ''
+  });
+
+  const isDefault = !user || (avatar == initialData.current.avatar);
+
   useEffect(() => {
     setAvatar(user?.avatar || '');
+
+    initialData.current = {
+      avatar: user?.avatar || ''
+    };
   }, [ user ]);
 
   const handleAvatar = async (e: SubmitEvent) => {
@@ -44,6 +56,12 @@ function AvatarUploader() {
         setError(data.error);
         return;
       }
+
+      initialData.current = {
+        avatar
+      };
+
+      setSave(s => s + 1);
     } catch {
       setError('something went wrong connecting');
     }
@@ -54,7 +72,7 @@ function AvatarUploader() {
       <form onSubmit={handleAvatar}>
         {error && <p>{error}</p>}
         <RizuInput label="Direct link" type="text" value={avatar} onChange={(e) => setAvatar(e.target.value)} required />
-        <RizuButton type="submit">Save</RizuButton>
+        <RizuButton type="submit" disabled={isDefault}>Save</RizuButton>
       </form>
     </RizuSettingLine>
   )
