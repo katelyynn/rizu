@@ -28,11 +28,11 @@ export function RizuRadio({
       )}
       <div className={styles.items}>
         {items.map((item: RadioItem) => (
-          <div className={styles.item} key={item.value}>
-            <RadioGroup.Item className={styles.radio} value={item.value} id={item.value}>
+          <div className={styles.item} key={`${label}-${item.value}`}>
+            <RadioGroup.Item className={styles.radio} value={item.value} id={`${label}-${item.value}`}>
               <RadioGroup.Indicator className={styles.indicator} />
             </RadioGroup.Item>
-            <label className={styles.label} htmlFor={item.value}>
+            <label className={styles.label} htmlFor={`${label}-${item.value}`}>
               {item.label}
             </label>
           </div>

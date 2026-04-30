@@ -3,7 +3,9 @@
   flex-direction: column;
   gap: 4px;
 
-  margin-bottom: 6px;
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }
 
 .head {
@@ -53,8 +55,8 @@
 .indicator {
   background: #fff;
   box-shadow: inset 0 -1px 0 0 #ddd;
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
   display: block;
   border-radius: 50px;
 }

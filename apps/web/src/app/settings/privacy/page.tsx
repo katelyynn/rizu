@@ -81,6 +81,10 @@ function Privacy() {
         {error && <p>{error}</p>}
         <RizuSettingLine label="Visibility" desc={`
           Choose how you want to be perceived and by who on the site.
+          <br>
+          Your presence status displays whether you are online, or recently listened.
+          <br>
+          Your recent activity can be seen on your profile as the 'Wall'.
           `}>
             <RizuRadio label="Show my presence status to" value={presence} onValueChange={setPresence} items={[
               {
@@ -97,6 +101,54 @@ function Privacy() {
               }
             ]} />
             <RizuRadio label="Show my recent activity to" value={activity} onValueChange={setActivity} items={[
+              {
+                label: 'Everyone',
+                value: 'everyone'
+              },
+              {
+                label: 'Friends only',
+                value: 'friends'
+              },
+              {
+                label: 'Nobody',
+                value: 'none'
+              }
+            ]} />
+            <RizuRadio label="Show my comments page to" value={activity} onValueChange={setActivity} items={[
+              {
+                label: 'Everyone',
+                value: 'everyone'
+              },
+              {
+                label: 'Friends only',
+                value: 'friends'
+              },
+              {
+                label: 'Nobody',
+                value: 'none'
+              }
+            ]} />
+        </RizuSettingLine>
+        <RizuSettingLine label="Interactions" desc={`
+          Choose what actions other users can do in relation to you.
+          <br>
+          Choosing to show your comments, but limiting who is allowed to post, will show as read-only.
+          `}>
+            <RizuRadio label="Allow comments from" value={presence} onValueChange={setPresence} items={[
+              {
+                label: 'Everyone',
+                value: 'everyone'
+              },
+              {
+                label: 'Friends only',
+                value: 'friends'
+              },
+              {
+                label: 'Nobody',
+                value: 'none'
+              }
+            ]} />
+            <RizuRadio label="Allow direct messages from" value={activity} onValueChange={setActivity} items={[
               {
                 label: 'Everyone',
                 value: 'everyone'
