@@ -96,7 +96,7 @@ commentRoutes.get('/:type/:id', async (c) => {
       id: comment.author.id,
       username: comment.author.username,
       slug: comment.author.slug,
-      avatar: comment.author.slug,
+      avatar: comment.author.avatar,
       pronouns: {
         personal: comment.author.personalPronoun,
         possessive: comment.author.possessivePronoun
