@@ -75,7 +75,34 @@ commentRoutes.get('/:type/:id', async (c) => {
       eq(comments.targetType, type),
       eq(comments.targetId, id)
     ))
-    .orderBy(desc(comments.created)).limit(30);
+    .orderBy(desc(comments.created)).limit(50);
+
+  return c.json(allComments);
+});
+
+commentRoutes.get('/:type/:id/short', async (c) => {
+  const { type, id } = c.req.param();
+
+  const valid = [ 'user' ];
+  if (!valid.includes(type)) {
+    return c.json({ error: 'invalid type' }, 400);
+  }
+
+  const allComments = await db
+    .select({
+      id: comments.id,
+      content: comments.content,
+      created: comments.created,
+      parent: comments.parent,
+      author: users
+    })
+    .from(comments)
+    .innerJoin(users, eq(comments.author, users.id))
+    .where(and(
+      eq(comments.targetType, type),
+      eq(comments.targetId, id)
+    ))
+    .orderBy(desc(comments.created)).limit(8);
 
   return c.json(allComments);
 });

@@ -37,11 +37,33 @@ export function RizuActivity({
           <div className={styles.bubble}>
             <RizuMarkdown text={activity.comment.content} />
           </div>
-          <p className={styles.time}>{DateTime.fromISO(activity.created).toRelative({ style: 'short' })}</p>
+          <div className={styles.bottom}>
+            <Link className={styles.action} href={`/comment/${activity.comment.id}`}>Reply</Link>
+            <p className={styles.time}>{DateTime.fromISO(activity.created).toRelative({ style: 'short' })}</p>
+          </div>
         </div>
       </div>
     )
   }
 
   return <p>unknown type '{activity.type}'</p>
+}
+
+interface RizuWallGroupProps {
+  header: string,
+  children: React.ReactNode
+}
+
+export function RizuWallGroup({
+  header,
+  children
+}: RizuWallGroupProps) {
+  return (
+    <div className={styles.group}>
+      <h4 className={styles.header}>{header}</h4>
+      <div className={styles.activities}>
+        {children}
+      </div>
+    </div>
+  )
 }

@@ -12,12 +12,14 @@ import RizuButton from '../button/button';
 
 interface RizuCommentsProps {
   type: string,
-  id: string
+  id: string,
+  short?: boolean
 }
 
 export function RizuComments({
   type,
-  id
+  id,
+  short
 }: RizuCommentsProps) {
   const { user } = useAuth();
   const [ comments, setComments ] = useState<Comment[]>([]);
@@ -26,7 +28,7 @@ export function RizuComments({
   const [ loading, setLoading ] = useState(false);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/comments/${type}/${id}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/comments/${type}/${id}${short ? '/short' : ''}`)
       .then(res => res.json())
       .then(data => setComments(data))
       .catch(error => console.error(error));

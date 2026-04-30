@@ -11,7 +11,8 @@ import { Activity, Friend, Listen, UserSnippet, UserStats } from '@rizu/shared';
 import React from 'react';
 import { UserTabs } from './tabs';
 import { RizuUser, RizuUserList } from '@/app/components/user/user';
-import { RizuActivity, RizuWall } from '@/app/components/wall/wall';
+import { RizuActivity, RizuWall, RizuWallGroup } from '@/app/components/wall/wall';
+import { DateTime } from 'luxon';
 
 export default async function Page({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -25,7 +26,7 @@ export default async function Page({ params }: { params: Promise<{ username: str
     <UserPage user={user}>
       <Wall username={user.slug} />
       <Recents username={user.slug} />
-      <RizuComments type="user" id={user.id} />
+      <RizuComments type="user" id={user.id} short />
     </UserPage>
   )
 }
@@ -147,11 +148,45 @@ async function Wall({ username }: { username: string }) {
 
   const activities: Activity[] = await res.json();
 
+  interface group {
+    header: string,
+    activities: Activity[]
+  }
+
+  const grouped: group[] = Object.values(
+    activities.reduce((acc, activity) => {
+      const date = DateTime.fromISO(activity.created);
+
+      let day;
+      if (date.hasSame(DateTime.now(), 'day')) {
+        day = 'Today';
+      } else if (date.hasSame(DateTime.now().minus({ days: 1 }), 'day')) {
+        day = 'Yesterday';
+      } else {
+        day = date.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
+      }
+
+      if (!acc[day]) {
+        acc[day] = {
+          header: day,
+          activities: []
+        }
+      }
+
+      acc[day].activities.push(activity);
+      return acc;
+    }, {})
+  );
+
   return (
     <section>
       <h3>Wall</h3>
       <RizuWall>
-        {activities.map((activity: Activity) => <RizuActivity key={activity.id} activity={activity} />)}
+        {grouped.map((group: group) => (
+          <RizuWallGroup key={group.header} header={group.header}>
+            {group.activities.map((activity: Activity) => <RizuActivity key={activity.id} activity={activity} />)}
+          </RizuWallGroup>
+        ))}
       </RizuWall>
     </section>
   )

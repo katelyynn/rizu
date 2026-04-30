@@ -1,6 +1,18 @@
 .wall {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.activities {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
@@ -71,5 +83,26 @@
 
 .time {
   font-size: 11px;
-  color: #666;
+  color: #999;
+}
+
+.bottom {
+  display: flex;
+  gap: 6px;
+}
+
+.action {
+  appearance: none;
+  font: inherit;
+  font-size: 11px;
+  color: var(--link);
+  border: none;
+  padding: unset;
+  background: unset;
+
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

@@ -23,7 +23,7 @@ activitiesRoutes.get('/:slug', async (c) => {
     })
     .from(activities)
     .where(eq(activities.user, userId))
-    .orderBy(desc(activities.created)).limit(20);
+    .orderBy(desc(activities.created)).limit(5);
 
   // comments
   const commentTargets = userActivity
