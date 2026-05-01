@@ -14,7 +14,7 @@ export const users = pgTable('users', {
 });
 
 export const privacySettings = pgTable('privacy_settings', {
-  user: text('id').notNull().references(() => users.id),
+  user: text('id').primaryKey().notNull().references(() => users.id),
   presence: text('presence').default('everyone'),
   activity: text('activity').default('everyone'),
   recentListening: text('recent_listening').default('everyone'),

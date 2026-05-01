@@ -71,9 +71,28 @@ settingsRoutes.get('/privacy', async (c) => {
         messages: privacySettings.messages,
         friends: privacySettings.friends
       })
-      .from(privacySettings);
+      .from(privacySettings)
+      .where(eq(privacySettings.user, userId));
 
-    return c.json(settings);
+    if (settings.length > 0) {
+      return c.json(settings[0]);
+    }
+
+    const [ newSettings ] = await db
+      .insert(privacySettings)
+      .values({ user: userId })
+      .returning();
+
+    return c.json({
+      presence: newSettings.presence,
+      activity: newSettings.activity,
+      listening: newSettings.recentListening,
+      library: newSettings.library,
+      show_comments: newSettings.showComments,
+      open_comments: newSettings.openComments,
+      messages: newSettings.messages,
+      friends: newSettings.friends
+    });
   } catch (error) {
     return c.json({ error: error.message }, 500);
   }
