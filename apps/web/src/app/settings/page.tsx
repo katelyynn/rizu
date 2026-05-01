@@ -8,6 +8,7 @@ import RizuButton from '../components/button/button';
 import { RizuSettingLine } from './components/side/side';
 import { Author } from '@rizu/shared';
 import NotFound from '../not-found';
+import { RizuAlert } from '../components/alert/alert';
 
 export default function Page() {
   const { user } = useAuth();
@@ -76,6 +77,7 @@ function AvatarUploader({ user }: { user: Author }) {
   return (
     <RizuSettingLine label="Avatar" desc="Showcase yourself in a way beyond words. Please provide a link in the meantime before an uploader is available.">
       <form onSubmit={handleAvatar}>
+        {!isDefault && <RizuAlert fade type="warn">Your changes are waiting to be saved</RizuAlert>}
         {error && <p>{error}</p>}
         <RizuInput label="Direct link" type="text" value={avatar} onChange={(e) => setAvatar(e.target.value)} required />
         <RizuButton type="submit" disabled={isDefault}>Save</RizuButton>
@@ -148,6 +150,7 @@ function Pronouns({ user }: { user: Author }) {
         ${user.username} reached 10,000 listens, **${personal}** is now #1
         `}>
         <form onSubmit={handleSubmit}>
+          {!isDefault && <RizuAlert fade type="warn">Your changes are waiting to be saved</RizuAlert>}
           {error && <p>{error}</p>}
           <RizuInput label="Personal" type="text" value={personal} onChange={(e) => setPersonal(e.target.value)} required />
           <RizuInput label="Possessive" type="text" value={possessive} onChange={(e) => setPossessive(e.target.value)} required />

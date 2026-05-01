@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import { RizuSettingLine } from '../components/side/side';
 import { RizuRadio } from '@/app/components/radio/radio';
 import RizuButton from '@/app/components/button/button';
+import { RizuAlert } from '@/app/components/alert/alert';
 
 export function PrivacyClient({ settings }: { settings: PrivacySettings }) {
   const [ error, setError ] = useState('');
@@ -87,7 +88,8 @@ export function PrivacyClient({ settings }: { settings: PrivacySettings }) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {error && <p>{error}</p>}
+        {!isDefault && <RizuAlert fade type="warn">Your changes are waiting to be saved</RizuAlert>}
+        {error && <RizuAlert type="error">{error}</RizuAlert>}
         <RizuSettingLine label="Visibility" desc={`
           Choose how you want to be perceived and by who on the site.
           <br>
