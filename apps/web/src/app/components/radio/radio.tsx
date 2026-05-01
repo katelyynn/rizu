@@ -1,5 +1,6 @@
 import { RadioGroup } from 'radix-ui';
 import styles from "./radio.module.css";
+import { RizuMarkdown } from '../markdown/markdown';
 
 interface RadioItem {
   label: string,
@@ -8,6 +9,7 @@ interface RadioItem {
 
 interface RizuRadioProps {
   value: string,
+  desc?: string,
   onValueChange: (value: string) => void,
   label: string,
   items: RadioItem[]
@@ -15,6 +17,7 @@ interface RizuRadioProps {
 
 export function RizuRadio({
   value,
+  desc,
   onValueChange,
   label,
   items
@@ -25,6 +28,11 @@ export function RizuRadio({
         <label className={styles.head}>
           {label}
         </label>
+      )}
+      {desc && (
+        <div className={styles.headDesc}>
+          <RizuMarkdown text={desc} />
+        </div>
       )}
       <div className={styles.items}>
         {items.map((item: RadioItem) => (

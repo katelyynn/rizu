@@ -1,17 +1,26 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 
   &:not(:last-child) {
     margin-bottom: 10px;
   }
+
+  width: fit-content;
 }
 
 .head {
   color: #666;
   font-size: 11px;
   font-weight: bold;
+}
+.headDesc {
+  color: #777;
+  font-size: 11px;
+  margin-top: -6px;
+  max-width: 340px;
+  cursor: default;
 }
 
 .items {
@@ -24,6 +33,14 @@
   display: flex;
   align-items: center;
   gap: 6px;
+
+  padding: 2px 0;
+  margin: -2px 0;
+
+  &:hover {
+    color: var(--link);
+    font-weight: bold;
+  }
 }
 
 .radio {

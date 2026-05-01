@@ -91,11 +91,11 @@ export function PrivacyClient({ settings }: { settings: PrivacySettings }) {
         <RizuSettingLine label="Visibility" desc={`
           Choose how you want to be perceived and by who on the site.
           <br>
-          Your presence status displays whether you are online, or recently listened.
+          Many of these controls are quite similar to each other, but having too much control over your privacy was never a bad thing.
           <br>
-          Your recent activity can be seen on your profile as the 'Wall'.
+          Any users who are blocked will be treated as *${labels.none}*, regardless of your settings.
           `}>
-            <RizuRadio label="Show my presence status to" value={presence} onValueChange={setPresence} items={[
+            <RizuRadio label="Show my presence status to" desc="Displays if you are online, idle, or offline, based on your listening and activity" value={presence} onValueChange={setPresence} items={[
               {
                 label: labels.everyone,
                 value: 'everyone'
@@ -109,7 +109,7 @@ export function PrivacyClient({ settings }: { settings: PrivacySettings }) {
                 value: 'none'
               }
             ]} />
-            <RizuRadio label="Show my recent activity to" value={activity} onValueChange={setActivity} items={[
+            <RizuRadio label="Show my recent activity to" desc="This is shown as the 'Wall' on your profile" value={activity} onValueChange={setActivity} items={[
               {
                 label: labels.everyone,
                 value: 'everyone'
@@ -123,7 +123,7 @@ export function PrivacyClient({ settings }: { settings: PrivacySettings }) {
                 value: 'none'
               }
             ]} />
-            <RizuRadio label="Show my comments page to" value={showComments} onValueChange={setShowComments} items={[
+            <RizuRadio label="Show my comments page to" desc="This controls who can *see* your comments page only" value={showComments} onValueChange={setShowComments} items={[
               {
                 label: labels.everyone,
                 value: 'everyone'
@@ -137,7 +137,7 @@ export function PrivacyClient({ settings }: { settings: PrivacySettings }) {
                 value: 'none'
               }
             ]} />
-            <RizuRadio label="Show my recent listening to" value={recentListening} onValueChange={setRecentListening} items={[
+            <RizuRadio label="Show my recent listening to" desc="Removes the list from your profile and delays listens in the last 24 hours from appearing" value={recentListening} onValueChange={setRecentListening} items={[
               {
                 label: labels.everyone,
                 value: 'everyone'
@@ -151,7 +151,7 @@ export function PrivacyClient({ settings }: { settings: PrivacySettings }) {
                 value: 'none'
               }
             ]} />
-            <RizuRadio label="Reveal my library fully to" value={library} onValueChange={setLibrary} items={[
+            <RizuRadio label="Reveal my library fully to" desc="Hides all in-depth listening data, except for basic counters" value={library} onValueChange={setLibrary} items={[
               {
                 label: labels.everyone,
                 value: 'everyone'
@@ -170,8 +170,10 @@ export function PrivacyClient({ settings }: { settings: PrivacySettings }) {
           Choose what actions other users can do in relation to you.
           <br>
           Choosing to show your comments, but limiting who is allowed to post, will show as read-only.
+          <br>
+          Any users who are blocked will be treated as *${labels.none}*, regardless of your settings.
           `}>
-            <RizuRadio label="Allow friend requests from" value={friends} onValueChange={setFriends} items={[
+            <RizuRadio label="Allow friend requests from" desc="This will not delete pre-existing incoming requests" value={friends} onValueChange={setFriends} items={[
               {
                 label: labels.everyone,
                 value: 'everyone'
@@ -185,7 +187,7 @@ export function PrivacyClient({ settings }: { settings: PrivacySettings }) {
                 value: 'none'
               }
             ]} />
-            <RizuRadio label="Allow comments from" value={openComments} onValueChange={setOpenComments} items={[
+            <RizuRadio label="Allow comments from" desc="This will not delete previous comments" value={openComments} onValueChange={setOpenComments} items={[
               {
                 label: labels.everyone,
                 value: 'everyone'
@@ -199,7 +201,7 @@ export function PrivacyClient({ settings }: { settings: PrivacySettings }) {
                 value: 'none'
               }
             ]} />
-            <RizuRadio label="Allow direct messages from" value={messages} onValueChange={setMessages} items={[
+            <RizuRadio label="Allow direct messages from" desc="This will make any affected previous conversations you had read-only" value={messages} onValueChange={setMessages} items={[
               {
                 label: labels.everyone,
                 value: 'everyone'
