@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { getCookie } from 'hono/cookie';
+import { getCookie, setCookie } from 'hono/cookie';
 import { jwtVerify } from 'jose';
 import { db } from '../db';
 import { generalSettings, privacySettings, users } from '../db/schema';
@@ -53,6 +53,34 @@ settingsRoutes.patch('/profile/pronouns', async (c) => {
   }
 });
 
+export async function getOrCreateGeneralSettings(userId: string) {
+  const settings = await db
+    .select({
+      language: generalSettings.language,
+      region: generalSettings.region,
+      theme: generalSettings.theme,
+      layout: generalSettings.layout
+    })
+    .from(generalSettings)
+    .where(eq(generalSettings.user, userId));
+
+  if (settings.length > 0) {
+    return settings[0];
+  }
+
+  const [ newSettings ] = await db
+    .insert(generalSettings)
+    .values({ user: userId })
+    .returning();
+
+  return {
+    language: newSettings.language,
+    region: newSettings.region,
+    theme: newSettings.theme,
+    layout: newSettings.layout
+  };
+}
+
 settingsRoutes.get('/general', async (c) => {
   try {
     const userId = await getAuthUser(c);
@@ -60,31 +88,9 @@ settingsRoutes.get('/general', async (c) => {
       return c.json({ error: 'invalid token' }, 401);
     }
 
-    const settings = await db
-      .select({
-        language: generalSettings.language,
-        region: generalSettings.region,
-        theme: generalSettings.theme,
-        layout: generalSettings.layout
-      })
-      .from(generalSettings)
-      .where(eq(generalSettings.user, userId));
+    const settings = getOrCreateGeneralSettings(userId);
 
-    if (settings.length > 0) {
-      return c.json(settings[0]);
-    }
-
-    const [ newSettings ] = await db
-      .insert(generalSettings)
-      .values({ user: userId })
-      .returning();
-
-    return c.json({
-      language: newSettings.language,
-      region: newSettings.region,
-      theme: newSettings.theme,
-      layout: newSettings.layout
-    });
+    return c.json(settings);
   } catch (error) {
     return c.json({ error: error.message }, 500);
   }
@@ -114,6 +120,11 @@ settingsRoutes.patch('/general', async (c) => {
       theme,
       layout
     }).where(eq(generalSettings.user, userId));
+
+    setCookie(c, 'rizuLanguage', language, { maxAge: 31536000, httpOnly: false, path: '/' });
+    setCookie(c, 'rizuRegion', region, { maxAge: 31536000, httpOnly: false, path: '/' });
+    setCookie(c, 'rizuTheme', theme, { maxAge: 31536000, httpOnly: false, path: '/' });
+    setCookie(c, 'rizuLayout', layout, { maxAge: 31536000, httpOnly: false, path: '/' });
 
     return c.json({ message: 'updated general settings' });
   } catch (error) {

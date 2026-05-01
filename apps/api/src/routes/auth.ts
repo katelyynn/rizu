@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 import { jwtVerify, SignJWT } from 'jose';
 import { getCookie, setCookie } from 'hono/cookie';
 import slugify from 'slugify';
+import { getOrCreateGeneralSettings } from './settings';
 
 export const authRoutes = new Hono();
 
@@ -108,6 +109,13 @@ authRoutes.get('/me', async (c) => {
     if (user.length == 0) {
       return c.json({ user: null }, 200);
     }
+
+    const generalSettings = await getOrCreateGeneralSettings(userId);
+
+    setCookie(c, 'rizuLanguage', generalSettings.language!, { maxAge: 31536000, httpOnly: false, path: '/' });
+    setCookie(c, 'rizuRegion', generalSettings.region!, { maxAge: 31536000, httpOnly: false, path: '/' });
+    setCookie(c, 'rizuTheme', generalSettings.theme!, { maxAge: 31536000, httpOnly: false, path: '/' });
+    setCookie(c, 'rizuLayout', generalSettings.layout!, { maxAge: 31536000, httpOnly: false, path: '/' });
 
     return c.json({ user: user[0] });
   } catch (error) {
