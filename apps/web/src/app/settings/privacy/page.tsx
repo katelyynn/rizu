@@ -1,49 +1,45 @@
 'use client';
 
 import { useAuth } from '@/app/components/auth/auth_context';
-import { useEffect, useRef, useState } from 'react';
 import { SettingsTabs } from '../components/tab/tab';
 import { RizuSettingLine } from '../components/side/side';
 import RizuInput from '@/app/components/input/input';
 import RizuButton from '@/app/components/button/button';
 import { RizuRadio } from '@/app/components/radio/radio';
+import NotFound from '@/app/not-found';
+import { Author, PrivacySettings } from '@rizu/shared';
+import { Privacy } from './page.server';
+import { useState } from 'react';
 
 export default function Page() {
+  const { user } = useAuth();
+
+  // wip
+  if (!user) return <NotFound />
+
   return (
     <>
       <SettingsTabs />
-      <Privacy />
+      <Privacy user={user} />
     </>
   )
 }
-function Privacy() {
-  const { user } = useAuth();
-  const [ personal, setPersonal ] = useState('');
-  const [ possessive, setPossessive ] = useState('');
+
+export function PrivacyClient({ user, settings }: { user: Author, settings: PrivacySettings }) {
   const [ error, setError ] = useState('');
 
-  const [ presence, setPresence ] = useState('everyone');
-  const [ activity, setActivity ] = useState('everyone');
+  const [ presence, setPresence ] = useState(settings.presence);
+  const [ activity, setActivity ] = useState(settings.activity);
+  const [ recentListening, setRecentListening ] = useState(settings.listening);
+  const [ library, setLibrary ] = useState(settings.library);
+  const [ showComments, setShowComments ] = useState(settings.show_comments);
+  const [ openComments, setOpenComments ] = useState(settings.open_comments);
+  const [ messages, setMessages ] = useState(settings.messages);
+  const [ friends, setFriends ] = useState(settings.friends);
 
   const [ save, setSave ] = useState(0);
 
-  const initialData = useRef({
-    personal: user?.pronouns?.personal || '',
-    possessive: user?.pronouns?.possessive || ''
-  });
-
-  const isDefault = !user || (personal == initialData.current.personal && possessive == initialData.current.possessive);
-
-  useEffect(() => {
-    setPersonal(user?.pronouns.personal || '');
-
-    setPossessive(user?.pronouns.possessive || '');
-
-    initialData.current = {
-      personal: user?.pronouns.personal || '',
-      possessive: user?.pronouns.possessive || ''
-    }
-  }, [ user ]);
+  const isDefault = false;
 
   const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
@@ -62,11 +58,6 @@ function Privacy() {
       if (!res.ok) {
         setError(data.error);
         return;
-      }
-
-      initialData.current = {
-        personal,
-        possessive
       }
 
       setSave(s => s + 1);
@@ -114,7 +105,35 @@ function Privacy() {
                 value: 'none'
               }
             ]} />
-            <RizuRadio label="Show my comments page to" value={activity} onValueChange={setActivity} items={[
+            <RizuRadio label="Show my comments page to" value={showComments} onValueChange={setShowComments} items={[
+              {
+                label: 'Everyone',
+                value: 'everyone'
+              },
+              {
+                label: 'Friends only',
+                value: 'friends'
+              },
+              {
+                label: 'Nobody',
+                value: 'none'
+              }
+            ]} />
+            <RizuRadio label="Show my recent listening to" value={recentListening} onValueChange={setRecentListening} items={[
+              {
+                label: 'Everyone',
+                value: 'everyone'
+              },
+              {
+                label: 'Friends only',
+                value: 'friends'
+              },
+              {
+                label: 'Nobody',
+                value: 'none'
+              }
+            ]} />
+            <RizuRadio label="Reveal my library fully to" value={library} onValueChange={setLibrary} items={[
               {
                 label: 'Everyone',
                 value: 'everyone'
@@ -134,7 +153,7 @@ function Privacy() {
           <br>
           Choosing to show your comments, but limiting who is allowed to post, will show as read-only.
           `}>
-            <RizuRadio label="Allow comments from" value={presence} onValueChange={setPresence} items={[
+            <RizuRadio label="Allow friend requests from" value={friends} onValueChange={setFriends} items={[
               {
                 label: 'Everyone',
                 value: 'everyone'
@@ -148,7 +167,21 @@ function Privacy() {
                 value: 'none'
               }
             ]} />
-            <RizuRadio label="Allow direct messages from" value={activity} onValueChange={setActivity} items={[
+            <RizuRadio label="Allow comments from" value={openComments} onValueChange={setOpenComments} items={[
+              {
+                label: 'Everyone',
+                value: 'everyone'
+              },
+              {
+                label: 'Friends only',
+                value: 'friends'
+              },
+              {
+                label: 'Nobody',
+                value: 'none'
+              }
+            ]} />
+            <RizuRadio label="Allow direct messages from" value={messages} onValueChange={setMessages} items={[
               {
                 label: 'Everyone',
                 value: 'everyone'

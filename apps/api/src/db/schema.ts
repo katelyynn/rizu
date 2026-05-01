@@ -13,6 +13,18 @@ export const users = pgTable('users', {
   possessivePronoun: text('possessive_pronoun').default('them')
 });
 
+export const privacySettings = pgTable('privacy_settings', {
+  user: text('id').notNull().references(() => users.id),
+  presence: text('presence').default('everyone'),
+  activity: text('activity').default('everyone'),
+  recentListening: text('recent_listening').default('everyone'),
+  library: text('library').default('everyone'),
+  showComments: text('show_comments').default('everyone'),
+  openComments: text('open_comments').default('everyone'),
+  messages: text('messages').default('everyone'),
+  friends: text('friends').default('everyone')
+});
+
 export const friendships = pgTable('friendships', {
   id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
   user: text('user').notNull().references(() => users.id),

@@ -6,19 +6,25 @@ import RizuInput from '../components/input/input';
 import { useAuth } from '../components/auth/auth_context';
 import RizuButton from '../components/button/button';
 import { RizuSettingLine } from './components/side/side';
+import { Author } from '@rizu/shared';
+import NotFound from '../not-found';
 
 export default function Page() {
+  const { user } = useAuth();
+
+  // wip
+  if (!user) return <NotFound />
+
   return (
     <>
       <SettingsTabs />
-      <AvatarUploader />
-      <Pronouns />
+      <AvatarUploader user={user} />
+      <Pronouns user={user} />
     </>
   )
 }
 
-function AvatarUploader() {
-  const { user } = useAuth();
+function AvatarUploader({ user }: { user: Author }) {
   const [ avatar, setAvatar ] = useState('');
   const [ error, setError ] = useState('');
 
@@ -78,8 +84,7 @@ function AvatarUploader() {
   )
 }
 
-function Pronouns() {
-  const { user } = useAuth();
+function Pronouns({ user }: { user: Author }) {
   const [ personal, setPersonal ] = useState('');
   const [ possessive, setPossessive ] = useState('');
   const [ error, setError ] = useState('');

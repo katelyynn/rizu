@@ -117,3 +117,16 @@ export interface Activity {
     album?: AlbumSnippet
   }
 }
+
+export type Privacy = 'everyone' | 'friends' | 'none';
+
+export interface PrivacySettings {
+  presence: Privacy,
+  activity: Privacy,
+  listening: Privacy,
+  library: Privacy,
+  show_comments: Privacy,
+  open_comments: Privacy,
+  messages: Privacy,
+  friends: 'everyone' | 'friends_of_friends' | 'none'
+}
