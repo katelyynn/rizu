@@ -118,6 +118,13 @@ export interface Activity {
   }
 }
 
+export interface GeneralSettings {
+  language: string,
+  region: 'system' | string,
+  theme: 'light' | 'dark',
+  layout: 'classic' | 'modern'
+}
+
 export type Privacy = 'everyone' | 'friends' | 'none';
 
 export interface PrivacySettings {

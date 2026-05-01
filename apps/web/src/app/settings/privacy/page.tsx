@@ -12,7 +12,7 @@ export default function Page() {
   )
 }
 
-export async function Privacy() {
+async function Privacy() {
   const cookieStore = await cookies();
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/settings/privacy`, {

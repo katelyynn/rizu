@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { getCookie } from 'hono/cookie';
 import { jwtVerify } from 'jose';
 import { db } from '../db';
-import { privacySettings, users } from '../db/schema';
+import { generalSettings, privacySettings, users } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { getAuthUser } from './auth';
 
@@ -48,6 +48,74 @@ settingsRoutes.patch('/profile/pronouns', async (c) => {
     }).where(eq(users.id, userId));
 
     return c.json({ message: 'updated pronouns', pronouns: { personal, possessive } });
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+settingsRoutes.get('/general', async (c) => {
+  try {
+    const userId = await getAuthUser(c);
+    if (!userId) {
+      return c.json({ error: 'invalid token' }, 401);
+    }
+
+    const settings = await db
+      .select({
+        language: generalSettings.language,
+        region: generalSettings.region,
+        theme: generalSettings.theme,
+        layout: generalSettings.layout
+      })
+      .from(generalSettings)
+      .where(eq(generalSettings.user, userId));
+
+    if (settings.length > 0) {
+      return c.json(settings[0]);
+    }
+
+    const [ newSettings ] = await db
+      .insert(generalSettings)
+      .values({ user: userId })
+      .returning();
+
+    return c.json({
+      language: newSettings.language,
+      region: newSettings.region,
+      theme: newSettings.theme,
+      layout: newSettings.layout
+    });
+  } catch (error) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+settingsRoutes.patch('/general', async (c) => {
+  try {
+    const userId = await getAuthUser(c);
+    if (!userId) {
+      return c.json({ error: 'invalid token' }, 401);
+    }
+
+    const {
+      language,
+      region,
+      theme,
+      layout
+    } = await c.req.json();
+
+    if (!language || !region || !theme || !layout) {
+      return c.json({ error: 'missing required fields: language, region, theme, layout' }, 400);
+    }
+
+    await db.update(generalSettings).set({
+      language,
+      region,
+      theme,
+      layout
+    }).where(eq(generalSettings.user, userId));
+
+    return c.json({ message: 'updated general settings' });
   } catch (error) {
     return c.json({ error: error.message }, 500);
   }

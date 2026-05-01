@@ -13,6 +13,14 @@ export const users = pgTable('users', {
   possessivePronoun: text('possessive_pronoun').default('them')
 });
 
+export const generalSettings = pgTable('general_settings', {
+  user: text('id').primaryKey().notNull().references(() => users.id),
+  language: text('language').default('en-GB'),
+  region: text('region').default('system'),
+  theme: text('theme').default('light'),
+  layout: text('layout').default('classic')
+});
+
 export const privacySettings = pgTable('privacy_settings', {
   user: text('id').primaryKey().notNull().references(() => users.id),
   presence: text('presence').default('everyone'),

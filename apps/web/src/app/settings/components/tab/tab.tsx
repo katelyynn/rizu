@@ -12,7 +12,8 @@ export function SettingsTabs() {
     <>
       <RizuPageTitle icon="cog" title="Settings" />
       <RizuTabList>
-        <RizuTab href="/settings" pathname={pathname}>Profile</RizuTab>
+        <RizuTab href="/settings" pathname={pathname}>General</RizuTab>
+        <RizuTab href="/settings/profile" pathname={pathname}>Profile</RizuTab>
         <RizuTab href="/settings/privacy" pathname={pathname}>Privacy</RizuTab>
       </RizuTabList>
     </>
