@@ -35,7 +35,7 @@
 }
 
 .headline {
-  font-size: 12px;
+  font-size: var(--font-size-s);
 }
 
 .highlight {
@@ -62,7 +62,7 @@
 
   margin: 6px 0 4px;
 
-  font-size: 12px;
+  font-size: var(--font-size-s);
 
   position: relative;
 
@@ -87,7 +87,7 @@
 }
 
 .time {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: #999;
 }
 
@@ -99,7 +99,7 @@
 .action {
   appearance: none;
   font: inherit;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: var(--link);
   border: none;
   padding: unset;
@@ -141,7 +141,7 @@
 }
 
 .name {
-  font-size: 12px;
+  font-size: var(--font-size-s);
   color: #000;
 
   &:hover {
@@ -149,7 +149,7 @@
   }
 }
 .artist {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: #444;
 
   &:hover {

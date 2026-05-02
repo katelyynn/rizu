@@ -14,6 +14,16 @@
       margin-bottom: -1px;
     }
   }
+
+  &.layout-modern {
+    border-bottom: unset;
+    margin-left: -8px;
+    margin-right: -8px;
+
+    .tab {
+      margin-bottom: unset;
+    }
+  }
 }
 
 .tab {
@@ -21,11 +31,24 @@
   border: 1px solid #ccc;
   border-bottom-color: transparent !important;
   font-weight: bold;
-  font-size: 12px;
+  font-size: var(--font-size-s);
 
   &:not(.active) {
     background: #ff3e540e;
     border-color: transparent !important;
+  }
+
+  &.layout-modern {
+    border: unset;
+    padding: 6px 8px;
+    font-weight: 500;
+    text-decoration: none !important;
+    border-radius: 6px;
+    background: unset !important;
+
+    &.active {
+      font-weight: 600;
+    }
   }
 }
 

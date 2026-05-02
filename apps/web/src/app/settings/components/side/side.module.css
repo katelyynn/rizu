@@ -22,12 +22,12 @@
 
 .head {
   color: #444;
-  font-size: 12px;
+  font-size: var(--font-size-s);
   line-height: 16px;
   margin: unset;
 }
 
 .desc {
   color: #666;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
 }

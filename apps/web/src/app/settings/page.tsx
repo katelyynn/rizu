@@ -1,4 +1,4 @@
-import { GeneralSettings, PrivacySettings } from '@rizu/shared';
+import { GeneralSettings } from '@rizu/shared';
 import { cookies } from 'next/headers';
 import { SettingsTabs } from './components/tab/tab';
 import { GeneralClient } from './page.client';
@@ -28,6 +28,8 @@ async function General() {
   }
 
   const settings: GeneralSettings = await res.json();
+
+  console.info(settings);
 
   return <GeneralClient settings={settings} />
 }

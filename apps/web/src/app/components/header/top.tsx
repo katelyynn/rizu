@@ -1,8 +1,15 @@
 import Link from 'next/link';
 import styles from "./top.module.css";
 import RizuInput from '../input/input';
+import { getGeneralSettings } from '../auth/cookie';
 
-export function RizuTop() {
+export async function RizuTop() {
+  const settings = await getGeneralSettings();
+
+  if (settings.layout == 'modern') {
+    return <></>;
+  }
+
   return (
     <div className={styles.top}>
       <div className={styles.logos}>

@@ -6,15 +6,17 @@ import Link from 'next/link';
 
 interface RizuTabListProps {
   standalone?: boolean,
-  children: React.ReactNode
+  children: React.ReactNode,
+  layout: string
 }
 
 export function RizuTabList({
   standalone = true,
-  children
+  children,
+  layout
 }: RizuTabListProps) {
   return (
-    <nav className={`${styles.list} ${standalone ? styles.standalone : ''}`}>
+    <nav className={`${styles.list} ${standalone ? styles.standalone : ''} ${styles[`layout-${layout}`]}`}>
       {children}
     </nav>
   )
@@ -23,16 +25,18 @@ export function RizuTabList({
 interface RizuTabProps {
   pathname: string,
   href: string,
-  children: React.ReactNode
+  children: React.ReactNode,
+  layout: string
 }
 
 export function RizuTab({
   pathname,
   href,
-  children
+  children,
+  layout
 }: RizuTabProps) {
   return (
-    <Link className={`${styles.tab} ${pathname == href ? styles.active : ''}`} href={href}>
+    <Link className={`${styles.tab} ${pathname == href ? styles.active : ''} ${styles[`layout-${layout}`]}`} href={href}>
       {children}
     </Link>
   )

@@ -3,8 +3,14 @@ import "./globals.css";
 import { RizuTop } from './components/header/top';
 import { RizuBottom } from './components/header/bottom';
 import { AuthProvider } from './components/auth/auth_context';
+import { Hanken_Grotesk } from 'next/font/google';
 
 import "famfamfam-silk/dist/sprite/famfamfam-silk.min.css";
+
+const hanken = Hanken_Grotesk({
+  subsets: ['latin'],
+  display: 'swap'
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",

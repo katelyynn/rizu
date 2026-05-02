@@ -68,7 +68,7 @@
 
   margin: 1px 0 4px;
 
-  font-size: 12px;
+  font-size: var(--font-size-s);
 
   position: relative;
 
@@ -99,11 +99,11 @@
 }*/
 
 .username {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   font-weight: bold;
 }
 .time {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: #999;
 }
 
@@ -132,7 +132,7 @@
 .action {
   appearance: none;
   font: inherit;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: var(--link);
   border: none;
   padding: unset;
@@ -151,4 +151,19 @@
   margin-top: 10px;
   border-top: 1px solid #ddd;
   gap: 10px;
+}
+
+.layout-modern {
+  .bubble {
+    padding: 5px 12px 7px;
+    border-radius: 6px;
+    filter: drop-shadow(0 1px 0 var(--shadow-top));
+    background: var(--bg);
+
+    --bg: #fceced;
+  }
+
+  .username {
+    font-size: var(--font-size);
+  }
 }

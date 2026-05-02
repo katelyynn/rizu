@@ -17,7 +17,7 @@
 .link {
   display: flex;
   align-items: center;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   padding: 0 10px;
   height: 28px;
 

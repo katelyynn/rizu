@@ -3,7 +3,7 @@
   border: 1px solid;
   border-color: #881c29 #881c29 #24080b;
   font: inherit;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
 
   padding: 4px 4px;
   border-radius: 4px;
@@ -34,4 +34,12 @@
     pointer-events: none;
     opacity: 0.7;
   }
+}
+
+.layout-modern {
+  border: none !important;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: var(--font-size-s);
+  text-shadow: none;
 }

@@ -14,7 +14,7 @@
 
   background: unset;
   font: inherit;
-  font-size: 12px;
+  font-size: var(--font-size-s);
   text-align: left;
 
   cursor: pointer;

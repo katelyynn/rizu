@@ -12,12 +12,12 @@
 
 .head {
   color: #666;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   font-weight: bold;
 }
 .headDesc {
   color: #777;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   margin-top: -6px;
   max-width: 340px;
   cursor: default;
@@ -79,5 +79,5 @@
 }
 
 .label {
-  font-size: 12px;
+  font-size: var(--font-size-s);
 }

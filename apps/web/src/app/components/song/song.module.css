@@ -29,11 +29,11 @@
 
 .name {
   color: #000;
-  font-size: 12px;
+  font-size: var(--font-size-s);
 }
 .artist {
   color: #333;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
 }
 
 .name, .artist {
@@ -45,7 +45,7 @@
 }
 
 .time {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: #999;
 }
 

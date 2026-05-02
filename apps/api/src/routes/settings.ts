@@ -88,7 +88,7 @@ settingsRoutes.get('/general', async (c) => {
       return c.json({ error: 'invalid token' }, 401);
     }
 
-    const settings = getOrCreateGeneralSettings(userId);
+    const settings = await getOrCreateGeneralSettings(userId);
 
     return c.json(settings);
   } catch (error) {

@@ -6,8 +6,11 @@ import { RizuRadio } from '@/app/components/radio/radio';
 import RizuButton from '@/app/components/button/button';
 import { RizuAlert } from '@/app/components/alert/alert';
 import { RizuSettingLine } from './components/side/side';
+import { useAuth } from '../components/auth/auth_context';
 
 export function GeneralClient({ settings }: { settings: GeneralSettings }) {
+  const { setGeneral } = useAuth();
+
   const [ error, setError ] = useState('');
 
   const [ language, setLanguage ] = useState(settings.language);
@@ -42,7 +45,7 @@ export function GeneralClient({ settings }: { settings: GeneralSettings }) {
     setError('');
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/settings/privacy`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/settings/general`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ language, region, theme, layout }),
@@ -63,7 +66,16 @@ export function GeneralClient({ settings }: { settings: GeneralSettings }) {
         layout
       };
 
+      setGeneral({
+        language,
+        region,
+        theme,
+        layout
+      });
+
       setSave(s => s + 1);
+
+      window.location.reload();
     } catch {
       setError('something went wrong connecting');
     }

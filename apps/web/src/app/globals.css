@@ -53,8 +53,8 @@ table {
 
 body {
   font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 15px;
+  font-size: var(--font-size);
+  line-height: var(--line-height);
   font-weight: normal;
 
   color: #000;
@@ -68,6 +68,36 @@ body {
 
   --big-avatar-size: 200px;
   --page-column-gap: 20px;
+
+  --font-size: 13px;
+  --line-height: 15px;
+
+  --font-size-s: 12px;
+  --line-height-s: 14px;
+
+  --font-size-xs: 11px;
+  --line-height-xs: 13px;
+
+  padding: 0 0 20px 0;
+
+  --pad: 10px;
+
+  &[data-layout="modern"] {
+    font-family: Hanken Grotesk, "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+
+    --font-size: 14px;
+    --line-height: 18px;
+
+    --font-size-s: 14px;
+    --line-height-s: 18px;
+
+    --font-size-xs: 13px;
+    --line-height-xs: 17px;
+
+    padding: 20px 0;
+
+    --pad: 20px;
+  }
 }
 
 main {
@@ -88,7 +118,7 @@ a {
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 
-  padding: 10px;
+  padding: var(--pad);
 
   display: flex;
   flex-direction: column;
@@ -130,9 +160,21 @@ h3 {
 
 h4 {
   color: #999;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   font-weight: bold;
   cursor: default;
+}
+
+[data-layout="modern"] {
+  .content {
+    border-radius: 6px;
+  }
+
+  h3 {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+  }
 }
 
 ::selection {

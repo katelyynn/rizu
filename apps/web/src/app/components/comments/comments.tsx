@@ -21,7 +21,7 @@ export function RizuComments({
   id,
   short
 }: RizuCommentsProps) {
-  const { user } = useAuth();
+  const { user, general } = useAuth();
   const [ comments, setComments ] = useState<Comment[]>([]);
   const [ text, setText ] = useState('');
   const [ error, setError ] = useState('');
@@ -113,11 +113,11 @@ export function RizuComments({
       <h3>Comments</h3>
       {error && <p>Error: {error}</p>}
       {user && (
-        <RizuCommentForm author={user} text={text} setText={setText} loading={loading} onSubmit={submitComment} placeholder={`leave a comment...`} />
+        <RizuCommentForm author={user} text={text} setText={setText} loading={loading} onSubmit={submitComment} placeholder={`leave a comment...`} theme={general.theme} layout={general.layout} />
       )}
       <div className={`${styles.children} ${styles.tree}`}>
         {nested.map(comment => (
-          <RizuComment key={comment.id} comment={comment} user={user} type={type} id={id} onReply={submitComment} />
+          <RizuComment key={comment.id} comment={comment} user={user} type={type} id={id} onReply={submitComment} theme={general.theme} layout={general.layout} />
         ))}
       </div>
     </section>
@@ -132,7 +132,9 @@ interface RizuCommentFormProps {
   loading: boolean,
   onSubmit: (content: string, parent?: string) => void,
   placeholder: string,
-  cancel?: () => void
+  cancel?: () => void,
+  theme: string,
+  layout: string
 }
 
 function RizuCommentForm({
@@ -143,12 +145,14 @@ function RizuCommentForm({
   loading,
   onSubmit,
   placeholder,
-  cancel
+  cancel,
+  theme,
+  layout
 }: RizuCommentFormProps) {
   // hybrid for replies and main form
 
   return (
-    <form onSubmit={e => { e.preventDefault(); onSubmit(text, parent); }} className={`${styles.comment} ${styles.commentForm} ${parent ? styles.hasParent : ''}`}>
+    <form onSubmit={e => { e.preventDefault(); onSubmit(text, parent); }} className={`${styles.comment} ${styles.commentForm} ${parent ? styles.hasParent : ''} ${styles[`layout-${layout}`]}`}>
       <RizuAvatar className={styles.avatar} src={author.avatar} alt={author.username} />
       <div className={styles.side}>
         <div className={`${styles.bubble} ${styles.ownBubble}`}>
@@ -169,7 +173,9 @@ interface RizuCommentProps {
   comment: Comment,
   type: string,
   id: string,
-  onReply: (content: string, parent: string) => void
+  onReply: (content: string, parent: string) => void,
+  theme: string,
+  layout: string
 }
 
 export function RizuComment({
@@ -177,7 +183,9 @@ export function RizuComment({
   comment,
   type,
   id,
-  onReply
+  onReply,
+  theme,
+  layout
 }: RizuCommentProps) {
   const [ showForm, setShowForm ] = useState(false);
   const [ text, setText ] = useState('');
@@ -189,7 +197,7 @@ export function RizuComment({
   }
 
   return (
-    <div className={`${styles.comment} ${comment.parent ? styles.hasParent : ''}`}>
+    <div className={`${styles.comment} ${comment.parent ? styles.hasParent : ''} ${styles[`layout-${layout}`]}`}>
       <RizuAvatar className={styles.avatar} src={comment.author.avatar} alt={comment.author.username} />
       <div className={styles.side}>
         <div className={styles.bubble}>
@@ -202,13 +210,13 @@ export function RizuComment({
         </div>
         {(showForm && user) && (
           <div className={styles.children}>
-            <RizuCommentForm onSubmit={handleReply} parent={comment.id} text={text} setText={setText} author={user} placeholder={`leave a reply...`} cancel={() => setShowForm(false)} />
+            <RizuCommentForm onSubmit={handleReply} parent={comment.id} text={text} setText={setText} author={user} placeholder={`leave a reply...`} cancel={() => setShowForm(false)} theme={theme} layout={layout} />
           </div>
         )}
         {comment.children && comment.children.length > 0 && (
           <div className={styles.children}>
             {comment.children.map(child => (
-              <RizuComment key={child.id} comment={child} user={user} type={type} id={id} onReply={onReply} />
+              <RizuComment key={child.id} comment={child} user={user} type={type} id={id} onReply={onReply} theme={theme} layout={layout} />
             ))}
           </div>
         )}
