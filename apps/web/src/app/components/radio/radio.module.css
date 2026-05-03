@@ -13,7 +13,7 @@
 .head {
   color: #666;
   font-size: var(--font-size-xs);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 .headDesc {
   color: #777;
@@ -39,7 +39,7 @@
 
   &:hover {
     color: var(--link);
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
   }
 }
 

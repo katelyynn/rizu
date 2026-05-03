@@ -28,7 +28,7 @@
 }
 
 .name {
-  color: #000;
+  color: var(--text);
   font-size: var(--font-size-s);
 }
 .artist {

@@ -25,5 +25,5 @@
 
 .username {
   font-size: var(--font-size-s);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }

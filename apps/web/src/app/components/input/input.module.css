@@ -7,12 +7,13 @@
 
 .label {
   font-size: var(--font-size-xs);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: #666;
 }
 
 .input {
   appearance: none;
+  background: var(--content-bg);
   border: 1px solid #aaa;
   outline: none;
   height: 24px;

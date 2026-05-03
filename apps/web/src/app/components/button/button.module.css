@@ -11,7 +11,7 @@
   background: #d34c5b;
   box-shadow: 0 1px 0 0 inset #fa9ba6, 0 1px 0 1px #520e1523;
   color: #fff;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   text-shadow: 0 1px 0 #5e121b;
 
   text-decoration: none !important;
