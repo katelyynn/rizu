@@ -5,5 +5,5 @@
 .placeholder {
   font-style: italic;
   cursor: default;
-  color: #333;
+  color: var(--text-low);
 }

@@ -160,7 +160,10 @@
     filter: drop-shadow(0 1px 0 var(--shadow-top));
     background: var(--bg);
 
-    --bg: #fceced;
+    --bg: color-mix(in oklch, oklch(var(--b5)), oklch(var(--h4)) 20%);
+    text-shadow: none;
+    --placeholder: oklch(var(--c3));
+    --shadow-top: none;
   }
 
   .username {

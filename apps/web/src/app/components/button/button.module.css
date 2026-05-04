@@ -42,4 +42,26 @@
   border-radius: 6px;
   font-size: var(--font-size-s);
   text-shadow: none;
+
+  background: oklch(var(--h3));
+  color: oklch(var(--b7));
+  text-shadow: none;
+  box-shadow: none !important;
+
+  transition-property: background, translate, opacity;
+  transition-duration: var(--trans);
+  transition-timing-function: var(--trans-function);
+
+  &:hover {
+    background: color-mix(in oklch, oklch(var(--h3)), oklch(var(--h4)) 20%);
+    transition: none;
+  }
+
+  &:active {
+    background: color-mix(in oklch, oklch(var(--h3)), oklch(var(--h4)) 40%);
+
+    transition-property: background, translate, opacity;
+    transition-duration: var(--trans);
+    transition-timing-function: var(--trans-function);
+  }
 }

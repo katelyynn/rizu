@@ -32,7 +32,7 @@
   font-size: var(--font-size-s);
 }
 .artist {
-  color: #333;
+  color: var(--text-low);
   font-size: var(--font-size-xs);
 }
 
